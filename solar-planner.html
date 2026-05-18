@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Roof Planner — NEED SOLAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow: hidden; }
+
+    /* ── 3-column layout ── */
+    .planner-wrap {
+      display: grid;
+      grid-template-columns: 240px 1fr 260px;
+      height: calc(100vh - 68px);
+      margin-top: 68px;
+      overflow: hidden;
+    }
+
+    /* ── LEFT: controls ── */
+    .ctrl-side {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .ctrl-section {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ctrl-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Number stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .stepper-lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      width: 56px;
+      padding-left: 10px;
+      flex-shrink: 0;
+    }
+    .stepper-val {
+      flex: 1;
+      background: var(--bg-base);
+      border: none;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 800;
+      text-align: center;
+      padding: 7px 4px;
+      outline: none;
+      width: 0;
+    }
+    .stepper-btn {
+      width: 34px;
+      height: 34px;
+      background: var(--bg-card2);
+      border: none;
+      color: var(--text-sec);
+      font-size: 18px;
+      cursor: pointer;
+      font-family: var(--font);
+      line-height: 1;
+      transition: background .15s, color .15s;
+      flex-shrink: 0;
+    }
+    .stepper-btn:hover { background: var(--orange); color: #000; }
+
+    /* Orient toggle */
+    .orient-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    .orient-btn {
+      padding: 10px 8px;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      transition: all .15s;
+    }
+    .orient-btn.active {
+      background: var(--orange-dim);
+      border-color: var(--orange-border);
+      color: var(--orange);
+    }
+    .orient-btn svg { display: block; }
+
+    /* Mode buttons */
+    .mode-btns { display: flex; flex-direction: column; gap: 3px; }
+    .mode-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all .15s;
+      text-align: left;
+    }
+    .mode-btn .ico { font-size: 15px; width: 20px; text-align: center; }
+    .mode-btn.active {
+      background: var(--orange-dim);
+      border-color: var(--orange-border);
+      color: var(--orange);
+      font-weight: 700;
+    }
+    .mode-btn:hover:not(.active) { background: var(--bg-card2); }
+
+    /* Action buttons */
+    .action-btns { display: flex; flex-direction: column; gap: 4px; }
+
+    /* Legend */
+    .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .legend-box {
+      width: 20px; height: 14px;
+      border: 1px solid rgba(255,255,255,.1);
+      flex-shrink: 0;
+    }
+    .legend-txt { font-size: 11px; color: var(--text-muted); }
+
+    /* ── CENTER: canvas ── */
+    .canvas-area {
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 16px;
+    }
+    .canvas-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .canvas-topbar strong { color: var(--orange); }
+
+    #roofCanvas {
+      display: block;
+      cursor: crosshair;
+      max-width: 100%;
+      max-height: 100%;
+      border: 2px solid var(--border);
+    }
+    .canvas-hint {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ── RIGHT: stats ── */
+    .stats-side {
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .stats-hd {
+      background: var(--orange);
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #000;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+    }
+    .stat-item {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item:last-of-type { border-bottom: none; }
+    .stat-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .stat-val {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .stat-unit {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 3px;
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-sec);
+      margin-top: 2px;
+    }
+    .stat-zero { color: var(--text-muted) !important; }
+
+    .stats-cta {
+      padding: 16px 18px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    /* Panel cost estimate */
+    .cost-bar {
+      background: rgba(247,148,29,.08);
+      border: 1px solid var(--orange-border);
+      padding: 12px 18px;
+      margin: 0;
+    }
+    .cost-bar .stat-val { font-size: 20px; }
+
+    /* Assumption note */
+    .assumption-note {
+      padding: 10px 18px;
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .planner-wrap {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+        height: auto;
+      }
+      .ctrl-side  { overflow-y: visible; }
+      .canvas-area { min-height: 400px; }
+      .stats-side { overflow-y: visible; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="img/Asset 1.png" alt="NEED SOLAR"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">หน้าหลัก</a></li>
+      <li><a href="products.html">แพ็กเกจ</a></li>
+      <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+      <li><a href="solar-planner.html" class="active">วางแผงบนหลังคา</a></li>
+      <li><a href="projects.html">ผลงาน</a></li>
+      <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
+    </ul>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="planner-wrap">
+
+  <!-- ══ LEFT CONTROLS ══ -->
+  <aside class="ctrl-side">
+
+    <div class="ctrl-section">
+      <span class="ctrl-label">ขนาดหลังคา (เมตร)</span>
+      <div class="stepper">
+        <span class="stepper-lbl">กว้าง</span>
+        <button class="stepper-btn" onclick="planner.adjustRoof('w',-1)">−</button>
+        <input class="stepper-val" id="inW" type="number" value="10" min="4" max="40"
+          onchange="planner.setRoofSize(+this.value, +document.getElementById('inH').value)">
+        <button class="stepper-btn" onclick="planner.adjustRoof('w',+1)">+</button>
+      </div>
+      <div class="stepper">
+        <span class="stepper-lbl">ยาว</span>
+        <button class="stepper-btn" onclick="planner.adjustRoof('h',-1)">−</button>
+        <input class="stepper-val" id="inH" type="number" value="8" min="3" max="30"
+          onchange="planner.setRoofSize(+document.getElementById('inW').value, +this.value)">
+        <button class="stepper-btn" onclick="planner.adjustRoof('h',+1)">+</button>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+        พื้นที่รวม: <strong id="roofArea" style="color:var(--orange)">80</strong> ตร.ม.
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <span class="ctrl-label">แนวแผงโซลาร์</span>
+      <div class="orient-row">
+        <button class="orient-btn active" id="btnPortrait" onclick="planner.setOrientation('portrait')">
+          <svg width="20" height="34" viewBox="0 0 20 34">
+            <rect x="1" y="1" width="18" height="32" rx="1" fill="#1A3A5C" stroke="#F7941D" stroke-width="1.5"/>
+            <line x1="10" y1="1" x2="10" y2="33" stroke="#2A5A8C" stroke-width=".8"/>
+            <line x1="1" y1="11" x2="19" y2="11" stroke="#2A5A8C" stroke-width=".8"/>
+            <line x1="1" y1="22" x2="19" y2="22" stroke="#2A5A8C" stroke-width=".8"/>
+          </svg>
+          Portrait<br><span style="font-size:10px;opacity:.6">1×2 ม.</span>
+        </button>
+        <button class="orient-btn" id="btnLandscape" onclick="planner.setOrientation('landscape')">
+          <svg width="34" height="20" viewBox="0 0 34 20">
+            <rect x="1" y="1" width="32" height="18" rx="1" fill="#1A3A5C" stroke="#F7941D" stroke-width="1.5"/>
+            <line x1="1" y1="10" x2="33" y2="10" stroke="#2A5A8C" stroke-width=".8"/>
+            <line x1="11" y1="1" x2="11" y2="19" stroke="#2A5A8C" stroke-width=".8"/>
+            <line x1="22" y1="1" x2="22" y2="19" stroke="#2A5A8C" stroke-width=".8"/>
+          </svg>
+          Landscape<br><span style="font-size:10px;opacity:.6">2×1 ม.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <span class="ctrl-label">เครื่องมือ</span>
+      <div class="mode-btns">
+        <button class="mode-btn active" id="modePlace" onclick="planner.setMode('place')">
+          <span class="ico">☀️</span> วางแผงโซลาร์
+        </button>
+        <button class="mode-btn" id="modeErase" onclick="planner.setMode('erase')">
+          <span class="ico">🗑️</span> ลบแผง
+        </button>
+        <button class="mode-btn" id="modeObstacle" onclick="planner.setMode('obstacle')">
+          <span class="ico">⊘</span> กำหนดสิ่งกีดขวาง
+        </button>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;line-height:1.6">
+        สิ่งกีดขวาง = แท็งก์น้ำ, แอร์, ท่อ ฯลฯ
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <span class="ctrl-label">การดำเนินการ</span>
+      <div class="action-btns">
+        <button class="btn btn-primary btn-sm" style="justify-content:center" onclick="planner.autoFill()">
+          ⚡ เติมแผงอัตโนมัติ
+        </button>
+        <button class="btn btn-ghost btn-sm" style="justify-content:center" onclick="planner.clearPanels()">
+          ลบแผงทั้งหมด
+        </button>
+        <button class="btn btn-ghost btn-sm" style="justify-content:center;border-color:#8B3A3A;color:#C04040" onclick="planner.clearAll()">
+          รีเซ็ตทั้งหมด
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <span class="ctrl-label">สัญลักษณ์</span>
+      <div class="legend-row">
+        <div class="legend-box" style="background:#1A3A5C;border-color:#F7941D"></div>
+        <span class="legend-txt">แผงโซลาร์ 550W</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-box" style="background:#2A1010;border-color:#C04040"></div>
+        <span class="legend-txt">สิ่งกีดขวาง</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-box" style="background:rgba(247,148,29,.4);border-color:#F7941D"></div>
+        <span class="legend-txt">ตำแหน่งที่วางได้</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-box" style="background:rgba(180,40,40,.4);border-color:#ff4444"></div>
+        <span class="legend-txt">วางไม่ได้ (พื้นที่ไม่พอ)</span>
+      </div>
+    </div>
+
+    <div class="ctrl-section" style="border-bottom:none;">
+      <span class="ctrl-label">ข้อสมมติฐาน</span>
+      <div style="font-size:10px;color:var(--text-muted);line-height:1.7">
+        แผง: <strong style="color:var(--text-sec)">JA Solar 550W</strong><br>
+        แสงอาทิตย์: <strong style="color:var(--text-sec)">4.5 ชม./วัน</strong><br>
+        ประสิทธิภาพ: <strong style="color:var(--text-sec)">80%</strong><br>
+        ค่าไฟ: <strong style="color:var(--text-sec)">4.20 บาท/หน่วย</strong><br>
+        ราคาติดตั้ง: <strong style="color:var(--text-sec)">8,500 บาท/แผง</strong>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ CENTER CANVAS ══ -->
+  <main class="canvas-area" id="canvasContainer">
+    <div class="canvas-topbar">
+      <div>
+        หลังคา <strong id="lblW">10</strong> × <strong id="lblH">8</strong> ม.
+        &nbsp;|&nbsp; แผง <strong id="lblCount">0</strong> แผง
+        &nbsp;|&nbsp; <strong id="lblKW">0.0</strong> kW
+      </div>
+      <div style="font-size:11px">
+        คลิกเพื่อวาง · ลากเพื่อวางต่อเนื่อง
+      </div>
+    </div>
+    <canvas id="roofCanvas"></canvas>
+    <div class="canvas-hint">
+      🖱️ คลิกวาง / คลิกซ้ำลบ · ลากเมาส์ค้างเพื่อวางหลายแผงพร้อมกัน
+    </div>
+  </main>
+
+  <!-- ══ RIGHT STATS ══ -->
+  <aside class="stats-side">
+    <div class="stats-hd">ผลการคำนวณ</div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">จำนวนแผง</div>
+      <div class="stat-val stat-zero" id="stPanels">0<span class="stat-unit">แผง</span></div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">ขนาดระบบ</div>
+      <div class="stat-val stat-zero" id="stKW">0.0<span class="stat-unit">kW</span></div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">ผลิตไฟได้</div>
+      <div class="stat-val stat-zero" id="stMonthKWh">0<span class="stat-unit">หน่วย/เดือน</span></div>
+      <div class="stat-sub" id="stYearKWh">0 หน่วย/ปี</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">ประหยัดค่าไฟ</div>
+      <div class="stat-val stat-zero" id="stMonthSave">0<span class="stat-unit">฿/เดือน</span></div>
+      <div class="stat-sub" id="stYearSave">0 ฿/ปี</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">ระยะคืนทุน</div>
+      <div class="stat-val stat-zero" id="stPayback">—<span class="stat-unit">ปี</span></div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-lbl">CO₂ ลดได้</div>
+      <div class="stat-val stat-zero" id="stCO2">0.00<span class="stat-unit">ตัน/เดือน</span></div>
+    </div>
+
+    <div class="stat-item" style="border-bottom:none">
+      <div class="stat-lbl">พื้นที่ใช้งาน</div>
+      <div class="stat-val stat-zero" id="stCoverage">0%</div>
+      <div class="stat-sub" id="stArea">0 / 0 ตร.ม.</div>
+    </div>
+
+    <div class="cost-bar">
+      <div class="stat-lbl">ประมาณการค่าติดตั้ง</div>
+      <div class="stat-val stat-zero" id="stCost">0<span class="stat-unit">฿</span></div>
+      <div class="stat-sub">(ยังไม่รวม VAT)</div>
+    </div>
+
+    <div class="assumption-note">
+      * ค่าที่แสดงเป็นการประมาณการเบื้องต้น ราคาและผลผลิตจริงขึ้นกับสภาพพื้นที่และรุ่นอุปกรณ์
+    </div>
+
+    <div class="stats-cta">
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;font-size:13px;">
+        นัดสำรวจหน้างานฟรี →
+      </a>
+      <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:8px">
+        วิศวกรประเมินจริงได้แม่นยำกว่า
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+'use strict';
+
+// ── Config ─────────────────────────────────
+const CFG = {
+  WATTS:      550,   // W per panel
+  SUN:        4.5,   // hours/day (TH average)
+  EFF:        0.80,  // system efficiency
+  RATE:       4.20,  // THB/kWh
+  COST_PANEL: 8500,  // THB installed / panel
+  CO2:        0.4713 // kg CO2/kWh
+};
+
+// ── RoofPlanner ────────────────────────────
+class RoofPlanner {
+  constructor() {
+    this.canvas = document.getElementById('roofCanvas');
+    this.ctx    = this.canvas.getContext('2d');
+    this.roofW  = 10;
+    this.roofH  = 8;
+    this.mode   = 'place';    // place | erase | obstacle
+    this.orient = 'portrait'; // portrait | landscape
+    this.grid   = [];         // 2D: 0=empty 1=panel 2=obstacle
+    this.panels = [];         // [{col,row,w,h}]
+    this.hover  = null;
+    this.pointerDown = false;
+    this.lastKey     = null;
+
+    this._init();
+    this._bindEvents();
+  }
+
+  // Panel width/height in grid cells
+  get pw() { return this.orient === 'portrait' ? 1 : 2; }
+  get ph() { return this.orient === 'portrait' ? 2 : 1; }
+
+  // Cell size in px (dynamic, fits container)
+  get cs() {
+    const cont = document.getElementById('canvasContainer');
+    const maxW  = Math.min((cont?.clientWidth  ?? 600) - 32, 900);
+    const maxH  = Math.min((cont?.clientHeight ?? 500) - 80, 700);
+    return Math.max(22, Math.min(
+      Math.floor(maxW / this.roofW),
+      Math.floor(maxH / this.roofH),
+      88
+    ));
+  }
+
+  // ── Setup ───────────────────────────────
+  _init() {
+    this.grid   = Array.from({length: this.roofH}, () => new Array(this.roofW).fill(0));
+    this.panels = [];
+    this._resize();
+    this.render();
+    this._updateStats();
+  }
+
+  _resize() {
+    const cs = this.cs;
+    this.canvas.width  = this.roofW * cs;
+    this.canvas.height = this.roofH * cs;
+  }
+
+  _bindEvents() {
+    const c = this.canvas;
+
+    c.addEventListener('mousemove', e => {
+      this.hover = this._cell(e);
+      if (this.pointerDown) this._interact(e);
+      else this.render();
+    });
+
+    c.addEventListener('mouseleave', () => {
+      this.hover = null;
+      this.pointerDown = false;
+      this.lastKey = null;
+      this.render();
+    });
+
+    c.addEventListener('mousedown', e => {
+      this.pointerDown = true;
+      this.lastKey = null;
+      this._interact(e);
+    });
+
+    window.addEventListener('mouseup', () => {
+      this.pointerDown = false;
+      this.lastKey = null;
+    });
+
+    c.addEventListener('touchstart', e => { e.preventDefault(); this.lastKey = null; this._interact(e); }, {passive:false});
+    c.addEventListener('touchmove',  e => { e.preventDefault(); this._interact(e); }, {passive:false});
+    c.addEventListener('touchend',   () => { this.lastKey = null; });
+
+    window.addEventListener('resize', () => {
+      this._resize();
+      this.render();
+    });
+  }
+
+  // ── Interaction ─────────────────────────
+  _cell(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    const cs   = this.cs;
+    const src  = e.touches ? e.touches[0] : e;
+    const col  = Math.floor((src.clientX - rect.left)  / cs);
+    const row  = Math.floor((src.clientY - rect.top)   / cs);
+    if (col < 0 || col >= this.roofW || row < 0 || row >= this.roofH) return null;
+    return {col, row};
+  }
+
+  _interact(e) {
+    const cell = this._cell(e);
+    if (!cell) return;
+    const key = `${cell.col},${cell.row}`;
+    if (this.lastKey === key) return;
+    this.lastKey = key;
+
+    const {col, row} = cell;
+    if (this.mode === 'obstacle') {
+      // toggle obstacle (can't place on existing panel)
+      if (this.grid[row][col] === 1) return;
+      this.grid[row][col] = this.grid[row][col] === 2 ? 0 : 2;
+    } else if (this.mode === 'erase') {
+      this._remove(col, row);
+    } else {
+      // place mode: click panel → remove, click empty → place
+      if (this.grid[row][col] === 1) {
+        this._remove(col, row);
+      } else if (this.grid[row][col] === 0) {
+        this._place(col, row);
+      }
+    }
+    this.render();
+    this._updateStats();
+  }
+
+  // ── Grid operations ─────────────────────
+  _canPlace(col, row, pw = this.pw, ph = this.ph) {
+    if (col + pw > this.roofW || row + ph > this.roofH) return false;
+    for (let r = row; r < row + ph; r++)
+      for (let c = col; c < col + pw; c++)
+        if (this.grid[r][c] !== 0) return false;
+    return true;
+  }
+
+  _place(col, row, pw = this.pw, ph = this.ph) {
+    if (!this._canPlace(col, row, pw, ph)) return false;
+    for (let r = row; r < row + ph; r++)
+      for (let c = col; c < col + pw; c++)
+        this.grid[r][c] = 1;
+    this.panels.push({col, row, w: pw, h: ph});
+    return true;
+  }
+
+  _remove(col, row) {
+    const v = this.grid[row]?.[col];
+    if (v === 2) { this.grid[row][col] = 0; return; }
+    if (v !== 1) return;
+    const i = this.panels.findIndex(p =>
+      col >= p.col && col < p.col + p.w &&
+      row >= p.row && row < p.row + p.h
+    );
+    if (i < 0) return;
+    const p = this.panels[i];
+    for (let r = p.row; r < p.row + p.h; r++)
+      for (let c = p.col; c < p.col + p.w; c++)
+        this.grid[r][c] = 0;
+    this.panels.splice(i, 1);
+  }
+
+  // ── Public actions ──────────────────────
+  setRoofSize(w, h) {
+    this.roofW = Math.max(4, Math.min(40, +w || 10));
+    this.roofH = Math.max(3, Math.min(30, +h || 8));
+    document.getElementById('inW').value = this.roofW;
+    document.getElementById('inH').value = this.roofH;
+    this._init();
+  }
+
+  adjustRoof(dim, delta) {
+    const wEl = document.getElementById('inW');
+    const hEl = document.getElementById('inH');
+    if (dim === 'w') wEl.value = Math.max(4, Math.min(40, +wEl.value + delta));
+    else             hEl.value = Math.max(3, Math.min(30, +hEl.value + delta));
+    this.setRoofSize(+wEl.value, +hEl.value);
+  }
+
+  setOrientation(o) {
+    this.orient = o;
+    document.getElementById('btnPortrait').classList.toggle('active',  o === 'portrait');
+    document.getElementById('btnLandscape').classList.toggle('active', o === 'landscape');
+    this.render();
+  }
+
+  setMode(m) {
+    this.mode = m;
+    ['place','erase','obstacle'].forEach(id => {
+      document.getElementById('mode' + id.charAt(0).toUpperCase() + id.slice(1))
+        ?.classList.toggle('active', id === m);
+    });
+    // cursor
+    this.canvas.style.cursor =
+      m === 'erase'    ? 'not-allowed' :
+      m === 'obstacle' ? 'cell' : 'crosshair';
+    this.render();
+  }
+
+  autoFill() {
+    const pw = this.pw, ph = this.ph;
+    for (let row = 0; row + ph <= this.roofH; row++)
+      for (let col = 0; col + pw <= this.roofW; col++)
+        this._place(col, row, pw, ph);
+    this.render();
+    this._updateStats();
+  }
+
+  clearPanels() {
+    this.panels.forEach(p => {
+      for (let r = p.row; r < p.row + p.h; r++)
+        for (let c = p.col; c < p.col + p.w; c++)
+          this.grid[r][c] = 0;
+    });
+    this.panels = [];
+    this.render();
+    this._updateStats();
+  }
+
+  clearAll() {
+    this._init();
+  }
+
+  // ── Render ──────────────────────────────
+  render() {
+    const {ctx} = this;
+    const cs = this.cs;
+    const W  = this.canvas.width;
+    const H  = this.canvas.height;
+
+    // BG
+    ctx.fillStyle = '#0F0F0F';
+    ctx.fillRect(0, 0, W, H);
+
+    // Roof surface
+    ctx.fillStyle = '#171717';
+    ctx.fillRect(2, 2, W-4, H-4);
+
+    // Grid lines
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = 1;
+    for (let r = 0; r <= this.roofH; r++) {
+      ctx.beginPath(); ctx.moveTo(0, r*cs); ctx.lineTo(W, r*cs); ctx.stroke();
+    }
+    for (let c = 0; c <= this.roofW; c++) {
+      ctx.beginPath(); ctx.moveTo(c*cs, 0); ctx.lineTo(c*cs, H); ctx.stroke();
+    }
+
+    // Meter labels (top + left)
+    if (cs >= 28) {
+      ctx.fillStyle = '#2E2E2E';
+      ctx.font = `${Math.max(8, Math.floor(cs * 0.17))}px Prompt, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      for (let c = 0; c < this.roofW; c++)
+        ctx.fillText(`${c+1}`, c*cs + cs/2, 2);
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      for (let r = 0; r < this.roofH; r++)
+        ctx.fillText(`${r+1}`, cs - 2, r*cs + cs/2);
+    }
+
+    // Obstacles
+    for (let r = 0; r < this.roofH; r++) {
+      for (let c = 0; c < this.roofW; c++) {
+        if (this.grid[r][c] !== 2) continue;
+        ctx.fillStyle = '#2A0F0F';
+        ctx.fillRect(c*cs+1, r*cs+1, cs-2, cs-2);
+        if (cs >= 28) {
+          ctx.fillStyle = '#C04040';
+          ctx.font = `${Math.max(10, Math.floor(cs * 0.4))}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('✕', c*cs + cs/2, r*cs + cs/2);
+        }
+      }
+    }
+
+    // Placed panels
+    this.panels.forEach(p => this._drawPanel(ctx, p.col, p.row, p.w, p.h, cs));
+
+    // Hover preview
+    if (this.hover) {
+      const {col, row} = this.hover;
+      if (this.mode === 'erase') {
+        ctx.fillStyle = 'rgba(255,80,80,0.2)';
+        ctx.fillRect(col*cs+1, row*cs+1, cs-2, cs-2);
+        ctx.strokeStyle = '#ff5050';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([]);
+        ctx.strokeRect(col*cs+1, row*cs+1, cs-2, cs-2);
+      } else if (this.mode === 'obstacle') {
+        ctx.fillStyle = 'rgba(180,60,60,0.25)';
+        ctx.fillRect(col*cs+1, row*cs+1, cs-2, cs-2);
+      } else {
+        const pw = this.pw, ph = this.ph;
+        if (col + pw <= this.roofW && row + ph <= this.roofH) {
+          const ok = this._canPlace(col, row, pw, ph);
+          ctx.globalAlpha = 0.52;
+          ctx.fillStyle   = ok ? '#F7941D' : '#8B2020';
+          ctx.fillRect(col*cs+2, row*cs+2, pw*cs-4, ph*cs-4);
+          ctx.globalAlpha = 1;
+          ctx.strokeStyle = ok ? '#F7941D' : '#FF4444';
+          ctx.lineWidth   = 2;
+          ctx.setLineDash([5, 4]);
+          ctx.strokeRect(col*cs+2, row*cs+2, pw*cs-4, ph*cs-4);
+          ctx.setLineDash([]);
+        }
+      }
+    }
+
+    // Outer border (orange)
+    ctx.setLineDash([]);
+    ctx.strokeStyle = '#F7941D';
+    ctx.lineWidth   = 2;
+    ctx.strokeRect(1, 1, W-2, H-2);
+  }
+
+  _drawPanel(ctx, col, row, pw, ph, cs) {
+    const x = col*cs, y = row*cs;
+    const w = pw*cs,  h = ph*cs;
+    const pad = 2;
+
+    // Solar panel body gradient
+    const gr = ctx.createLinearGradient(x, y, x+w, y+h);
+    gr.addColorStop(0, '#1B3E64');
+    gr.addColorStop(1, '#0E2540');
+    ctx.fillStyle = gr;
+    ctx.fillRect(x+pad, y+pad, w-pad*2, h-pad*2);
+
+    // Cell grid lines
+    ctx.strokeStyle = 'rgba(70,130,195,0.35)';
+    ctx.lineWidth = 0.6;
+    const vDiv = pw === 1 ? 6 : 12;
+    const hDiv = ph === 1 ? 6 : 12;
+    for (let i = 1; i < vDiv; i++) {
+      const lx = x + pad + (w-pad*2)*i/vDiv;
+      ctx.beginPath(); ctx.moveTo(lx, y+pad); ctx.lineTo(lx, y+h-pad); ctx.stroke();
+    }
+    for (let i = 1; i < hDiv; i++) {
+      const ly = y + pad + (h-pad*2)*i/hDiv;
+      ctx.beginPath(); ctx.moveTo(x+pad, ly); ctx.lineTo(x+w-pad, ly); ctx.stroke();
+    }
+
+    // Border
+    ctx.strokeStyle = '#F7941D';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x+pad, y+pad, w-pad*2, h-pad*2);
+
+    // Watt label
+    if (cs >= 38) {
+      ctx.fillStyle   = 'rgba(247,148,29,0.85)';
+      ctx.font        = `700 ${Math.max(8, Math.floor(cs*0.19))}px Prompt, sans-serif`;
+      ctx.textAlign   = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${CFG.WATTS}W`, x+w/2, y+h/2);
+    }
+  }
+
+  // ── Stats ───────────────────────────────
+  _updateStats() {
+    const count    = this.panels.length;
+    const kw       = count * CFG.WATTS / 1000;
+    const moKWh    = kw * CFG.SUN * 30 * CFG.EFF;
+    const moSave   = moKWh * CFG.RATE;
+    const yrSave   = moSave * 12;
+    const cost     = count * CFG.COST_PANEL;
+    const payback  = yrSave > 0 ? (cost / yrSave).toFixed(1) : '—';
+    const co2      = (moKWh * CFG.CO2 / 1000).toFixed(2);
+    const usedM2   = count * this.pw * this.ph;
+    const roofM2   = this.roofW * this.roofH;
+    const coverage = roofM2 > 0 ? Math.round(usedM2 / roofM2 * 100) : 0;
+
+    const fmt = n => Math.round(n).toLocaleString('th-TH');
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+
+    // Topbar
+    set('lblW',     this.roofW);
+    set('lblH',     this.roofH);
+    set('lblCount', count);
+    set('lblKW',    kw.toFixed(1));
+    document.getElementById('roofArea').textContent = roofM2;
+
+    // Right panel
+    const orng = '#F7941D';
+    const muted = 'var(--text-muted)';
+    const color = count > 0 ? orng : muted;
+
+    const sv = (id, main, unit = '') => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = `<span style="color:${color};font-size:24px;font-weight:900;line-height:1">${main}</span><span style="font-size:12px;color:var(--text-muted);margin-left:3px">${unit}</span>`;
+    };
+
+    sv('stPanels',    count,           'แผง');
+    sv('stKW',        kw.toFixed(1),   'kW');
+    sv('stMonthKWh',  fmt(moKWh),      'หน่วย/เดือน');
+    sv('stMonthSave', fmt(moSave),     '฿/เดือน');
+    sv('stPayback',   payback,         'ปี');
+    sv('stCO2',       co2,             'ตัน/เดือน');
+    sv('stCoverage',  coverage + '%',  '');
+    sv('stCost',      fmt(cost),       '฿');
+
+    set('stYearKWh',  `${fmt(moKWh*12)} หน่วย/ปี`);
+    set('stYearSave', `${fmt(yrSave)} ฿/ปี`);
+    set('stArea',     `${usedM2} / ${roofM2} ตร.ม.`);
+
+    // Payback color
+    if (count > 0) {
+      const pbEl = document.getElementById('stPayback')?.querySelector('span');
+      if (pbEl) {
+        const p = parseFloat(payback);
+        pbEl.style.color = p <= 7 ? '#4EC5C1' : p <= 10 ? '#F7941D' : '#aaa';
+      }
+    }
+  }
+}
+
+// ── Boot ───────────────────────────────────
+const planner = new RoofPlanner();
+</script>
+</body>
+</html>
