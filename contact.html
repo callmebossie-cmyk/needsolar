@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ติดต่อเรา — NEED SOLAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .form-success {
+      display: none;
+      background: rgba(78,197,193,.08);
+      border: 1px solid rgba(78,197,193,.3);
+      border-left: 3px solid var(--teal);
+      padding: 16px 20px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--teal);
+    }
+    .form-success.show { display: block; }
+
+    /* LINE CTA banner */
+    .line-cta {
+      background: #06C755;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .line-cta-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .line-cta-text span { font-size: 13px; font-weight: 400; display: block; opacity: .85; margin-top: 2px; }
+    .btn-line {
+      background: #fff;
+      color: #06C755;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="img/Asset 1.png" alt="NEED SOLAR"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">หน้าหลัก</a></li>
+      <li><a href="products.html">แพ็กเกจ</a></li>
+      <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+      <li><a href="projects.html">ผลงาน</a></li>
+      <li><a href="contact.html" class="active">ติดต่อเรา</a></li>
+      <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="container">
+    <div class="page-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">หน้าหลัก</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>ติดต่อเรา</span>
+      </div>
+      <h1 class="page-title">ติดต่อ<span> ทีมผู้เชี่ยวชาญ</span></h1>
+      <p class="page-desc">พร้อมให้คำปรึกษาและสำรวจหน้างานโดยไม่มีค่าใช้จ่าย ทีมวิศวกรของเราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-sec">
+  <div class="container">
+
+    <!-- INFO CARDS -->
+    <div class="contact-info-grid">
+      <div class="ci-card">
+        <div class="ci-icon">📞</div>
+        <div class="ci-label">โทรศัพท์</div>
+        <div class="ci-value">XXX-XXXX-XXXX</div>
+        <div class="ci-sub">จ.–ส. 08:00–17:00 น.</div>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">✉️</div>
+        <div class="ci-label">อีเมล</div>
+        <div class="ci-value">info@needsolar.co.th</div>
+        <div class="ci-sub">ตอบกลับภายใน 24 ชั่วโมง</div>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">📍</div>
+        <div class="ci-label">สำนักงาน</div>
+        <div class="ci-value">XXX ถนน XXXX</div>
+        <div class="ci-sub">แขวง XX เขต XX กรุงเทพฯ XXXXX</div>
+      </div>
+    </div>
+
+    <!-- FORM + MAP -->
+    <div class="contact-main">
+
+      <!-- FORM -->
+      <div class="cf-wrap">
+        <h2 class="cf-title">ส่งข้อความหาเรา</h2>
+        <p class="cf-desc">กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับโดยเร็ว หรือโทรหาเราโดยตรงที่ XXX-XXXX-XXXX</p>
+
+        <form id="contactForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="fullname">ชื่อ-นามสกุล *</label>
+              <input type="text" id="fullname" class="form-control" placeholder="ชื่อ นามสกุล" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">เบอร์โทรศัพท์ *</label>
+              <input type="tel" id="phone" class="form-control" placeholder="0XX-XXXX-XXXX" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">อีเมล</label>
+            <input type="email" id="email" class="form-control" placeholder="example@email.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="interest">ประเภทบริการที่สนใจ</label>
+            <select id="interest" class="form-control">
+              <option value="">— เลือกบริการ —</option>
+              <option>Solar บ้านพักอาศัย</option>
+              <option>Solar อาคาร / ธุรกิจ</option>
+              <option>Solar โรงงาน / คลังสินค้า</option>
+              <option>Solar เกษตรกรรม</option>
+              <option>ระบบกักเก็บพลังงาน Battery</option>
+              <option>บำรุงรักษา / ซ่อมแซม</option>
+              <option>อื่นๆ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="province2">จังหวัดที่ต้องการติดตั้ง</label>
+            <select id="province2" class="form-control">
+              <option value="">— เลือกจังหวัด —</option>
+              <option>กรุงเทพมหานคร</option>
+              <option>นนทบุรี</option>
+              <option>ปทุมธานี</option>
+              <option>สมุทรปราการ</option>
+              <option>ชลบุรี</option>
+              <option>ระยอง</option>
+              <option>เชียงใหม่</option>
+              <option>ขอนแก่น</option>
+              <option>ภูเก็ต</option>
+              <option>สงขลา</option>
+              <option>อื่นๆ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">รายละเอียดเพิ่มเติม</label>
+            <textarea id="message" class="form-control" placeholder="อธิบายความต้องการเพิ่มเติม เช่น ขนาดพื้นที่ ค่าไฟปัจจุบัน หรือคำถามที่ต้องการ"></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+              <input type="checkbox" required style="margin-top: 3px; accent-color: var(--orange);">
+              <span style="font-size: 12px; color: var(--text-sec); line-height: 1.6;">
+                ฉันยินยอมให้ NEED SOLAR ติดต่อกลับตามข้อมูลที่ให้ไว้ และยอมรับ
+                <a href="#" style="color: var(--orange);">นโยบายความเป็นส่วนตัว</a>
+              </span>
+            </label>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 15px; font-size: 15px;">
+              ส่งข้อความ →
+            </button>
+          </div>
+
+          <div class="form-success" id="formSuccess">
+            ✓ ส่งข้อความสำเร็จ ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมงในวันทำการ
+          </div>
+        </form>
+      </div>
+
+      <!-- MAP / SIDE INFO -->
+      <div style="display: flex; flex-direction: column;">
+        <div class="contact-map-wrap" style="flex: 1;">
+          <div class="map-icon">📍</div>
+          <div style="position: relative; z-index: 1; text-align: center; padding: 20px;">
+            <div style="font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px;">สำนักงานใหญ่ NEED SOLAR</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">XXX ถนน XXXX แขวง XX เขต XX<br>กรุงเทพมหานคร XXXXX</div>
+            <a href="#" class="btn btn-outline btn-sm">เปิด Google Maps →</a>
+          </div>
+        </div>
+
+        <!-- LINE CTA -->
+        <div class="line-cta">
+          <div class="line-cta-text">
+            ติดต่อผ่าน LINE OA
+            <span>ตอบกลับเร็วที่สุด เพิ่มเพื่อนได้เลย</span>
+          </div>
+          <a href="#" class="btn-line">เพิ่มเพื่อน LINE</a>
+        </div>
+
+        <!-- Quick info -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-top: none; padding: 24px;">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);">เหตุใดต้องเลือก NEED SOLAR</div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-sec);">
+              <span style="color: var(--orange); font-weight: 700; font-size: 16px;">✓</span>
+              สำรวจและประเมินหน้างานฟรี
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-sec);">
+              <span style="color: var(--orange); font-weight: 700; font-size: 16px;">✓</span>
+              ออกแบบระบบที่เหมาะกับคุณ
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-sec);">
+              <span style="color: var(--orange); font-weight: 700; font-size: 16px;">✓</span>
+              ช่วยประสานสินเชื่อธนาคาร
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-sec);">
+              <span style="color: var(--orange); font-weight: 700; font-size: 16px;">✓</span>
+              รับประกัน 25 ปี
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-sec);">
+              <span style="color: var(--orange); font-weight: 700; font-size: 16px;">✓</span>
+              บริการหลังการขายทั่วประเทศ
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding: var(--section-pad); background: var(--bg-section); border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-label">คำถามที่พบบ่อย</span>
+      <div class="divider"></div>
+      <h2 class="sec-title">FAQ <span>โซลาร์เซลล์</span></h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border);">
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">ต้องมีพื้นที่หลังคาเท่าไหร่?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">ระบบขนาด 1 kW ต้องการพื้นที่ประมาณ 6–8 ตร.ม. สำหรับบ้านทั่วไปที่ต้องการระบบ 5 kW จะใช้พื้นที่ประมาณ 30–40 ตร.ม.</p>
+      </div>
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">คืนทุนภายในกี่ปี?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">โดยเฉลี่ยอยู่ที่ 5–8 ปีสำหรับระบบบ้านพักอาศัย และ 4–7 ปีสำหรับธุรกิจ ขึ้นอยู่กับปริมาณการใช้ไฟและขนาดระบบ</p>
+      </div>
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">ต้องขออนุญาตอะไรบ้าง?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">สำหรับระบบ Grid-tied ต้องขออนุญาตเชื่อมต่อกับ MEA หรือ PEA ทีมงานของเราจะช่วยดำเนินการทั้งหมดให้</p>
+      </div>
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">วันเมฆมากหรือฝนตกจะเป็นอย่างไร?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">แผงโซลาร์สามารถผลิตไฟได้แม้ในวันที่มีเมฆมาก แต่ประสิทธิภาพจะลดลง ระบบ Hybrid ที่มี Battery จะช่วยสำรองพลังงานไว้ใช้ได้</p>
+      </div>
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">บำรุงรักษายากไหม?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">ระบบโซลาร์เซลล์ต้องการการดูแลรักษาน้อยมาก แนะนำให้ล้างทำความสะอาดแผงทุก 3–6 เดือน และตรวจสอบระบบประจำปี</p>
+      </div>
+      <div style="background: var(--bg-card); padding: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: var(--orange); margin-bottom: 8px;">มีบริการสินเชื่อไหม?</div>
+        <p style="font-size: 13px; color: var(--text-sec); line-height: 1.75;">เราประสานงานกับธนาคารชั้นนำหลายแห่ง มีสินเชื่อโซลาร์เซลล์ดอกเบี้ยพิเศษ ผ่อนได้สูงสุด 10 ปี ขั้นตอนไม่ยุ่งยาก</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-sec">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-title">ยังมีข้อสงสัย?<br>โทรหาเราได้เลย</h2>
+      <div class="cta-actions">
+        <a href="tel:XXXXXXXXXXX" class="btn btn-dark">📞 โทรทันที</a>
+        <a href="calculator.html" class="btn btn-onlight">คำนวณโซลาร์ก่อน</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="img/Asset 1.png" alt="NEED SOLAR" class="footer-logo">
+        <p class="footer-desc">ผู้เชี่ยวชาญด้านพลังงานแสงอาทิตย์ครบวงจร ออกแบบ ติดตั้ง และดูแลรักษาระบบโซลาร์เซลล์โดยทีมวิศวกรมืออาชีพ</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn">FB</a>
+          <a href="#" class="social-btn">LI</a>
+          <a href="#" class="social-btn">YT</a>
+          <a href="#" class="social-btn">IG</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">บริการ</div>
+        <ul class="f-links">
+          <li><a href="products.html">Solar บ้านพักอาศัย</a></li>
+          <li><a href="products.html">Solar ธุรกิจ / อาคาร</a></li>
+          <li><a href="products.html">Solar โรงงาน</a></li>
+          <li><a href="products.html">ระบบกักเก็บพลังงาน</a></li>
+          <li><a href="contact.html">บำรุงรักษา</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">เมนู</div>
+        <ul class="f-links">
+          <li><a href="index.html">หน้าหลัก</a></li>
+          <li><a href="products.html">แพ็กเกจ</a></li>
+          <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+          <li><a href="projects.html">ผลงาน</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">ติดต่อ</div>
+        <ul class="f-links">
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">โทรศัพท์</span>
+            <span style="color: var(--orange); font-weight: 700; font-size: 15px;">XXX-XXXX-XXXX</span>
+          </li>
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">อีเมล</span>
+            <span style="color: var(--text-sec); font-size: 13px;">info@needsolar.co.th</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© 2024 NEED SOLAR Co., Ltd. All rights reserved.</p>
+      <ul class="f-bot-links">
+        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+        <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" aria-label="Back to top">↑</button>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('contactForm')?.addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('formSuccess')?.classList.add('show');
+    e.target.reset();
+    setTimeout(() => document.getElementById('formSuccess')?.classList.remove('show'), 6000);
+  });
+</script>
+</body>
+</html>
