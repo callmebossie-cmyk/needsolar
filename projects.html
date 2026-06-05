@@ -7,6 +7,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .fb-card { cursor:pointer; transition:transform .2s,border-color .2s; }
+    .fb-card:hover { transform:translateY(-3px); }
+    .fb-card[data-type="video"]:hover { border-color:var(--orange) !important; }
+    .fb-card[data-type="photo"]:hover { border-color:#2dd4bf !important; }
+    .fb-thumb { height:220px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .fb-thumb-video { background:linear-gradient(160deg,#1a0e00 0%,#0d1117 100%); border-top:3px solid var(--orange); }
+    .fb-thumb-photo { background:linear-gradient(160deg,#001a18 0%,#0d1117 100%); border-top:3px solid #2dd4bf; }
+    .fb-circle { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; transition:background .2s,border-color .2s; }
+    .fb-circle-v { background:rgba(247,148,29,.12); border:2px solid rgba(247,148,29,.35); color:var(--orange); }
+    .fb-circle-p { background:rgba(45,212,191,.1); border:2px solid rgba(45,212,191,.3); color:#2dd4bf; }
+    .fb-card:hover .fb-circle-v { background:rgba(247,148,29,.25); border-color:var(--orange); }
+    .fb-card:hover .fb-circle-p { background:rgba(45,212,191,.2); border-color:#2dd4bf; }
+    .fb-badge { position:absolute; top:12px; left:14px; font-size:10px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:rgba(255,255,255,.18); font-family:var(--font); }
+    .fb-type-video { color:var(--orange) !important; }
+    .fb-type-photo { color:#2dd4bf !important; }
+    .pagination { display:flex; gap:6px; justify-content:center; margin-top:40px; flex-wrap:wrap; align-items:center; }
+    .page-btn { background:var(--bg-card); border:1px solid var(--border); color:var(--text-sec); padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font); transition:border-color .2s,color .2s; }
+    .page-btn:hover:not([disabled]) { border-color:var(--orange); color:var(--orange); }
+    .page-btn.active { background:var(--orange); border-color:var(--orange); color:#000; font-weight:800; }
+    .page-btn[disabled] { opacity:.35; cursor:not-allowed; }
+  </style>
 </head>
 <body>
 
@@ -85,110 +107,191 @@
 
     <!-- FILTER -->
     <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
-      <button class="filter-btn" data-filter="residential">บ้านพักอาศัย</button>
-      <button class="filter-btn" data-filter="commercial">ธุรกิจ / อาคาร</button>
-      <button class="filter-btn" data-filter="industrial">โรงงาน</button>
+      <button class="filter-btn active" data-filter="all">ทั้งหมด (43)</button>
+      <button class="filter-btn" data-filter="photo">รูปภาพ (37)</button>
+      <button class="filter-btn" data-filter="video">วิดีโอ (6)</button>
     </div>
 
-    <div class="proj-grid">
+    <div class="proj-grid" id="projGrid">
 
-      <!-- Project 1 -->
-      <div class="proj-card" data-type="residential">
-        <div class="proj-img">[ รูปโครงการที่อยู่อาศัย 01 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">บ้านพักอาศัย</div>
-          <div class="proj-name">บ้านพักอาศัย กรุงเทพฯ</div>
-          <div class="proj-detail">ขนาด 8 kW · Hybrid System</div>
-        </div>
-      </div>
+      <!-- VIDEOS (6) -->
+      <a href="https://www.facebook.com/share/r/18ee5ZYeJx/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V1</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #1</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/r/1Gn4yTGoSQ/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V2</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #2</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/r/18z3sZcEKp/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V3</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #3</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/r/1EPmo2ZkXY/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V4</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #4</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/r/14ejqPnxhhX/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V5</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #5</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/r/1E57sjqsT8/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="video">
+        <div class="fb-card-bg fb-video-bg"><span class="fb-icon">&#9654;</span><span class="fb-num">#V6</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-video">วิดีโอ</div><div class="proj-name">ผลงานวิดีโอ #6</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
 
-      <!-- Project 2 -->
-      <div class="proj-card" data-type="commercial">
-        <div class="proj-img">[ รูปโครงการธุรกิจ 01 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">อาคารพาณิชย์</div>
-          <div class="proj-name">อาคารสำนักงาน นนทบุรี</div>
-          <div class="proj-detail">ขนาด 50 kW · Grid-tied</div>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="proj-card" data-type="industrial">
-        <div class="proj-img">[ รูปโครงการโรงงาน 01 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">โรงงานอุตสาหกรรม</div>
-          <div class="proj-name">โรงงานผลิตชลบุรี</div>
-          <div class="proj-detail">ขนาด 300 kW · Grid-tied</div>
-        </div>
-      </div>
-
-      <!-- Project 4 -->
-      <div class="proj-card" data-type="residential">
-        <div class="proj-img">[ รูปโครงการที่อยู่อาศัย 02 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">บ้านพักอาศัย</div>
-          <div class="proj-name">บ้านเดี่ยว เชียงใหม่</div>
-          <div class="proj-detail">ขนาด 5 kW · Hybrid + Battery</div>
-        </div>
-      </div>
-
-      <!-- Project 5 -->
-      <div class="proj-card" data-type="commercial">
-        <div class="proj-img">[ รูปโครงการโรงแรม ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">โรงแรม</div>
-          <div class="proj-name">โรงแรม 4 ดาว ภูเก็ต</div>
-          <div class="proj-detail">ขนาด 120 kW · Grid-tied</div>
-        </div>
-      </div>
-
-      <!-- Project 6 -->
-      <div class="proj-card" data-type="industrial">
-        <div class="proj-img">[ รูปโครงการโรงงาน 02 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">โรงงาน</div>
-          <div class="proj-name">คลังสินค้า ระยอง</div>
-          <div class="proj-detail">ขนาด 500 kW · Grid-tied</div>
-        </div>
-      </div>
-
-      <!-- Project 7 -->
-      <div class="proj-card" data-type="commercial">
-        <div class="proj-img">[ รูปโครงการห้างสรรพสินค้า ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">ห้างสรรพสินค้า</div>
-          <div class="proj-name">คอมมูนิตี้มอลล์ ปทุมธานี</div>
-          <div class="proj-detail">ขนาด 200 kW · Grid-tied</div>
-        </div>
-      </div>
-
-      <!-- Project 8 -->
-      <div class="proj-card" data-type="residential">
-        <div class="proj-img">[ รูปโครงการที่อยู่อาศัย 03 ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">บ้านพักอาศัย</div>
-          <div class="proj-name">บ้านพักอาศัย ขอนแก่น</div>
-          <div class="proj-detail">ขนาด 10 kW · Hybrid System</div>
-        </div>
-      </div>
-
-      <!-- Project 9 -->
-      <div class="proj-card" data-type="industrial">
-        <div class="proj-img">[ รูปโครงการอุตสาหกรรมอาหาร ]</div>
-        <div class="proj-overlay">
-          <div class="proj-type">อุตสาหกรรมอาหาร</div>
-          <div class="proj-name">โรงงานแปรรูปอาหาร สมุทรปราการ</div>
-          <div class="proj-detail">ขนาด 750 kW · Grid-tied</div>
-        </div>
-      </div>
+      <!-- PHOTOS (37) -->
+      <a href="https://www.facebook.com/share/p/18gTYZi1Ws/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P1</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #1</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18jkBuNsev/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P2</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #2</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1JHfMfokcE/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P3</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #3</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18cHF9nXnG/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P4</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #4</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18qYS9716K/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P5</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #5</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1UX3UUA7La/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P6</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #6</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1AoeMfejje/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P7</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #7</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1BcVTX913o/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P8</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #8</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1D3Q3ufP7N/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P9</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #9</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1DBfTZnG4g/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P10</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #10</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1CxDHhU4Gp/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P11</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #11</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1Dy2TmDr9o/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P12</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #12</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1MzQdjnsdF/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P13</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #13</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1YxMBd2XE8/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P14</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #14</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1BLE3goZbX/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P15</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #15</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1HNTE4uzpQ/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P16</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #16</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1DAzvm4tx4/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P17</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #17</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18hCtsJgTL/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P18</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #18</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1C2bJa5Azf/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P19</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #19</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18c9tbCHLn/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P20</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #20</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1E9K7jN492/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P21</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #21</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18qKo4w2Lj/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P22</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #22</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1GPKpdcba1/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P23</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #23</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1DyJEQvfc5/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P24</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #24</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/17vks1xZ5y/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P25</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #25</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18oigaPboA/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P26</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #26</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1CYFEV5pZg/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P27</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #27</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/191HLQZMKf/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P28</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #28</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1EktQAnwKW/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P29</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #29</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1EE5hFgNxs/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P30</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #30</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1CeqTtsg6J/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P31</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #31</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1JFKbF8CAt/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P32</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #32</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/14ghmEwwvRy/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P33</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #33</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1EGUsSyWQF/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P34</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #34</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/1LTbPMkZEy/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P35</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #35</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/18d3Ypcgae/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P36</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #36</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
+      <a href="https://www.facebook.com/share/p/17cWwsPx5D/" target="_blank" rel="noopener" class="proj-card fb-card" data-type="photo">
+        <div class="fb-card-bg fb-photo-bg"><span class="fb-icon">&#9642;</span><span class="fb-num">#P37</span></div>
+        <div class="proj-overlay"><div class="proj-type fb-type-photo">รูปภาพ</div><div class="proj-name">ผลงานรูปภาพ #37</div><div class="proj-detail">ดูบน Facebook &#8594;</div></div>
+      </a>
 
     </div>
-
-    <!-- Load more -->
-    <div style="text-align: center; margin-top: 40px;">
-      <button class="btn btn-ghost">โหลดโครงการเพิ่มเติม</button>
-    </div>
+    <div class="pagination" id="pagination"></div>
   </div>
 </section>
 
@@ -268,10 +371,9 @@
         <img src="img/Asset 1.png" alt="NEED SOLAR" class="footer-logo">
         <p class="footer-desc">ผู้เชี่ยวชาญด้านพลังงานแสงอาทิตย์ครบวงจร ออกแบบ ติดตั้ง และดูแลรักษาระบบโซลาร์เซลล์โดยทีมวิศวกรมืออาชีพ</p>
         <div class="footer-social">
-          <a href="#" class="social-btn">FB</a>
-          <a href="#" class="social-btn">LI</a>
-          <a href="#" class="social-btn">YT</a>
-          <a href="#" class="social-btn">IG</a>
+          <a href="https://www.facebook.com/needsolarcell" target="_blank" rel="noopener" class="social-btn">FB</a>
+          <a href="https://www.youtube.com/@NeedSolar" target="_blank" rel="noopener" class="social-btn">YT</a>
+          <a href="https://www.instagram.com/need_solar" target="_blank" rel="noopener" class="social-btn">IG</a>
         </div>
       </div>
       <div>
@@ -300,11 +402,15 @@
         <ul class="f-links">
           <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
             <span style="color: var(--text-muted); font-size: 11px;">โทรศัพท์</span>
-            <span style="color: var(--orange); font-weight: 700; font-size: 15px;">XXX-XXXX-XXXX</span>
+            <a href="tel:0824984554" style="color: var(--orange); font-weight: 700; font-size: 15px; text-decoration:none;">082-498-4554</a>
           </li>
           <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
             <span style="color: var(--text-muted); font-size: 11px;">อีเมล</span>
-            <span style="color: var(--text-sec); font-size: 13px;">info@needsolar.co.th</span>
+            <a href="mailto:needsolarcell@gmail.com" style="color: var(--text-sec); font-size: 13px; text-decoration:none;">needsolarcell@gmail.com</a>
+          </li>
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">ที่อยู่</span>
+            <span style="color: var(--text-sec); font-size: 12px; line-height: 1.5;">10/10 หมู่ 10 ต.บางพระ<br>อ.ศรีราชา จ.ชลบุรี 20110</span>
           </li>
         </ul>
       </div>
