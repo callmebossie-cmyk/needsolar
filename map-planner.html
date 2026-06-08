@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ดูหลังคาบนแผนที่จริง — NEED SOLAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow: hidden; }
+
+    /* ── Layout ── */
+    .map-layout {
+      position: fixed;
+      top: 68px; left: 0; right: 0; bottom: 0;
+      display: flex;
+    }
+
+    .map-col {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── Search bar (floats over map) ── */
+    .search-wrap {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: min(500px, calc(100% - 24px));
+    }
+
+    .search-row {
+      display: flex;
+    }
+
+    .search-input {
+      flex: 1;
+      background: rgba(15,15,15,.95);
+      border: 1.5px solid var(--orange);
+      border-right: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      backdrop-filter: blur(6px);
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-btn {
+      background: var(--orange);
+      border: 1.5px solid var(--orange);
+      color: #000;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s;
+    }
+    .search-btn:hover { opacity: .85; }
+
+    .search-suggestions {
+      display: none;
+      background: rgba(18,18,18,.98);
+      border: 1.5px solid var(--orange);
+      border-top: none;
+      backdrop-filter: blur(6px);
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .suggestion {
+      padding: 9px 14px;
+      font-size: 12px;
+      color: var(--text-sec);
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.4;
+    }
+    .suggestion:last-child { border-bottom: none; }
+    .suggestion:hover { background: rgba(247,148,29,.08); color: var(--orange); }
+
+    /* ── Right panel ── */
+    .side-panel {
+      width: 300px;
+      flex-shrink: 0;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 400;
+    }
+
+    .side-hd {
+      background: var(--orange);
+      padding: 13px 18px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #000;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+    }
+
+    /* ── Steps (before drawing) ── */
+    .steps-view {
+      padding: 16px 18px;
+      flex: 1;
+    }
+
+    .step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 24px; height: 24px;
+      background: var(--orange);
+      color: #000;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+    .step-txt {
+      font-size: 12.5px;
+      color: var(--text-sec);
+      line-height: 1.5;
+      padding-top: 2px;
+    }
+    .step-txt strong { color: var(--orange); }
+
+    .free-note {
+      margin-top: 18px;
+      padding: 11px 13px;
+      background: rgba(247,148,29,.06);
+      border: 1px solid var(--orange-border);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Results (after drawing) ── */
+    .results-view {
+      display: none;
+      flex-direction: column;
+    }
+
+    .result-item {
+      padding: 11px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1px;
+    }
+    .result-val {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .result-unit {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 3px;
+    }
+    .result-sub {
+      font-size: 11px;
+      color: var(--text-sec);
+      margin-top: 2px;
+    }
+
+    .cost-highlight {
+      background: rgba(247,148,29,.07);
+      border-top: 1px solid var(--orange-border);
+      padding: 11px 18px;
+    }
+    .cost-highlight .result-val { font-size: 18px; }
+
+    .result-note {
+      padding: 10px 18px;
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+    }
+
+    .side-cta {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .redraw-btn {
+      width: 100%;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .redraw-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── Leaflet dark theme overrides ── */
+    .leaflet-bar a,
+    .leaflet-control-zoom a {
+      background-color: rgba(18,18,18,.92) !important;
+      border-color: #2a2a2a !important;
+      color: #ccc !important;
+      backdrop-filter: blur(4px);
+    }
+    .leaflet-bar a:hover { background-color: #222 !important; border-color: var(--orange) !important; }
+
+    .leaflet-draw-toolbar a {
+      background-color: rgba(18,18,18,.92) !important;
+      border-color: #2a2a2a !important;
+    }
+    .leaflet-draw-toolbar a:hover {
+      background-color: #222 !important;
+      border-color: var(--orange) !important;
+    }
+
+    .leaflet-draw-actions a {
+      background-color: rgba(18,18,18,.92) !important;
+      border-color: #2a2a2a !important;
+      color: #ccc !important;
+      font-family: var(--font) !important;
+      font-size: 12px !important;
+    }
+    .leaflet-draw-actions a:hover { background-color: #222 !important; color: var(--orange) !important; }
+
+    .leaflet-draw-tooltip {
+      background: rgba(15,15,15,.92) !important;
+      border: 1px solid var(--orange) !important;
+      color: #ccc !important;
+      font-family: var(--font) !important;
+      font-size: 12px !important;
+    }
+
+    .leaflet-control-attribution {
+      background: rgba(0,0,0,.6) !important;
+      color: #555 !important;
+      font-size: 9px !important;
+    }
+    .leaflet-control-attribution a { color: #666 !important; }
+
+    /* ── Mobile ── */
+    @media (max-width: 800px) {
+      body { overflow: auto; }
+      .map-layout { flex-direction: column; position: static; height: auto; }
+      .map-col { height: 55vh; min-height: 320px; }
+      .side-panel { width: 100%; overflow: visible; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="img/Asset 1.png" alt="NEED SOLAR"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">หน้าหลัก</a></li>
+      <li><a href="products.html">แพ็กเกจ</a></li>
+      <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+      <li class="nav-has-dropdown">
+        <span class="nav-dropdown-label">Solar Planner <span class="nav-arrow">▾</span></span>
+        <ul class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <li><a href="solar-planner.html">วางแผงบนหลังคา</a></li>
+            <li><a href="map-planner.html" class="active">ดูบ้านบนแผนที่จริง</a></li>
+          </div>
+        </ul>
+      </li>
+      <li><a href="projects.html">ผลงาน</a></li>
+      <li><a href="contact.html">ติดต่อเรา</a></li>
+      <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="map-layout">
+
+  <!-- ══ MAP COLUMN ══ -->
+  <div class="map-col">
+
+    <!-- Search bar -->
+    <div class="search-wrap">
+      <div class="search-row">
+        <input class="search-input" id="searchInput" type="text"
+               placeholder="🔍 ค้นหาที่อยู่ เช่น บ้านลูกค้า ซอย ตำบล อำเภอ..."
+               autocomplete="off"/>
+        <button class="search-btn" id="searchBtn">ค้นหา</button>
+      </div>
+      <div class="search-suggestions" id="suggestions"></div>
+    </div>
+
+    <div id="map"></div>
+  </div>
+
+  <!-- ══ RIGHT PANEL ══ -->
+  <aside class="side-panel">
+    <div class="side-hd">🛰️ Solar Map Planner</div>
+
+    <!-- Instructions -->
+    <div class="steps-view" id="stepsView">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.7">
+        วาดกรอบล้อมรอบหลังคาบ้านลูกค้าบนภาพดาวเทียม ระบบจะคำนวณพื้นที่จริงและประมาณจำนวนแผงโซลาร์ที่เหมาะสม
+      </p>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-txt"><strong>ค้นหาที่อยู่</strong> พิมพ์ชื่อหมู่บ้าน ซอย หรือที่อยู่ในช่องค้นหาด้านบน</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-txt"><strong>ซูมเข้าหาหลังคา</strong> จนเห็นภาพดาวเทียมชัดเจน (scroll หรือ pinch)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-txt">คลิก <strong>ไอคอนดินสอ ✏️</strong> ในกล่องเครื่องมือซ้ายบนแผนที่</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-txt"><strong>คลิกล้อมรอบหลังคา</strong> ทีละจุด · คลิกจุดแรกซ้ำ หรือกด Finish เพื่อปิด polygon</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-txt">ระบบ<strong>คำนวณพื้นที่และประมาณแผงโซลาร์</strong>ให้อัตโนมัติ</div>
+      </div>
+
+      <div class="free-note">
+        💡 <strong style="color:var(--orange)">ฟรี 100%</strong> ภาพดาวเทียม Esri World Imagery<br>
+        ไม่ต้อง Google API · ไม่ต้องผูกบัตร · ไม่มี backend
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-view" id="resultsView">
+
+      <div class="result-item">
+        <div class="result-lbl">พื้นที่หลังคาที่วาด</div>
+        <div class="result-val" id="resArea">—<span class="result-unit">ตร.ม.</span></div>
+        <div class="result-sub" id="resUsable"></div>
+      </div>
+
+      <div class="result-item">
+        <div class="result-lbl">จำนวนแผงโซลาร์โดยประมาณ</div>
+        <div class="result-val" id="resPanels">—<span class="result-unit">แผง</span></div>
+        <div class="result-sub">แผง JA Solar 550W ขนาด 1×2 ม.</div>
+      </div>
+
+      <div class="result-item">
+        <div class="result-lbl">ขนาดระบบ</div>
+        <div class="result-val" id="resKW">—<span class="result-unit">kW</span></div>
+      </div>
+
+      <div class="result-item">
+        <div class="result-lbl">ผลิตไฟได้</div>
+        <div class="result-val" id="resKWh">—<span class="result-unit">หน่วย/เดือน</span></div>
+        <div class="result-sub" id="resKWhYear"></div>
+      </div>
+
+      <div class="result-item">
+        <div class="result-lbl">ประหยัดค่าไฟ</div>
+        <div class="result-val" id="resSave">—<span class="result-unit">฿/เดือน</span></div>
+        <div class="result-sub" id="resSaveYear"></div>
+      </div>
+
+      <div class="result-item" style="border-bottom:none">
+        <div class="result-lbl">ระยะคืนทุน</div>
+        <div class="result-val" id="resPayback">—<span class="result-unit">ปี</span></div>
+      </div>
+
+      <div class="cost-highlight">
+        <div class="result-lbl">ประมาณการค่าติดตั้ง</div>
+        <div class="result-val" id="resCost">—<span class="result-unit">฿</span></div>
+        <div class="result-sub">(ยังไม่รวม VAT · 8,500 ฿/แผง)</div>
+      </div>
+
+      <div class="result-note">
+        * พื้นที่ใช้งาน = 80% ของพื้นที่ที่วาด<br>
+        * แสงอาทิตย์ 4.5 ชม./วัน · ประสิทธิภาพ 80%<br>
+        * ค่าไฟ 4.20 ฿/หน่วย · ราคาอ้างอิงเบื้องต้นเท่านั้น
+      </div>
+
+      <div style="padding:0 18px 8px">
+        <button class="redraw-btn" id="redrawBtn">🗑️ วาดพื้นที่ใหม่</button>
+      </div>
+
+      <div class="side-cta">
+        <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;font-size:13px;">
+          นัดสำรวจหน้างานฟรี →
+        </a>
+        <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:8px">
+          วิศวกรประเมินจริงได้แม่นยำกว่า
+        </div>
+      </div>
+
+    </div><!-- /results-view -->
+  </aside>
+
+</div><!-- /map-layout -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+<script>
+'use strict';
+
+// ── Solar constants ──────────────────────────
+const CFG = {
+  WATTS:      550,
+  SUN:        4.5,
+  EFF:        0.80,
+  RATE:       4.20,
+  COST_PANEL: 8500,
+  PANEL_M2:   2.0,   // 1 m × 2 m footprint
+  USABLE:     0.80   // 80% of drawn area usable
+};
+
+// ── Map init ─────────────────────────────────
+const map = L.map('map', { zoomControl: false }).setView([13.7563, 100.5018], 13);
+
+L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+// Esri World Imagery — free, no API key required
+L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {
+    attribution: 'Tiles &copy; Esri &mdash; Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo',
+    maxZoom: 20,
+    maxNativeZoom: 19
+  }
+).addTo(map);
+
+// ── Draw layer ───────────────────────────────
+const drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+const drawControl = new L.Control.Draw({
+  position: 'topleft',
+  draw: {
+    polygon: {
+      allowIntersection: false,
+      showArea: true,
+      shapeOptions: {
+        color: '#F7941D',
+        fillColor: '#F7941D',
+        fillOpacity: 0.20,
+        weight: 2.5
+      }
+    },
+    rectangle: false,
+    circle: false,
+    marker: false,
+    circlemarker: false,
+    polyline: false
+  },
+  edit: { featureGroup: drawnItems }
+});
+map.addControl(drawControl);
+
+// ── Draw events ──────────────────────────────
+map.on(L.Draw.Event.CREATED, e => {
+  drawnItems.clearLayers();
+  drawnItems.addLayer(e.layer);
+  compute(e.layer);
+});
+
+map.on(L.Draw.Event.EDITED, e => {
+  e.layers.eachLayer(layer => compute(layer));
+});
+
+map.on(L.Draw.Event.DELETED, () => {
+  showSteps();
+});
+
+// ── Compute + display ────────────────────────
+function compute(layer) {
+  const geojson  = layer.toGeoJSON();
+  const areaM2   = turf.area(geojson);
+  const usableM2 = areaM2 * CFG.USABLE;
+  const panels   = Math.max(0, Math.floor(usableM2 / CFG.PANEL_M2));
+  const kw       = panels * CFG.WATTS / 1000;
+  const moKWh    = kw * CFG.SUN * 30 * CFG.EFF;
+  const moSave   = moKWh * CFG.RATE;
+  const yrSave   = moSave * 12;
+  const cost     = panels * CFG.COST_PANEL;
+  const pb       = yrSave > 0 ? (cost / yrSave) : null;
+
+  const fmt = n => Math.round(n).toLocaleString('th-TH');
+  const pbColor = pb === null ? '#888' : pb <= 7 ? '#4EC5C1' : pb <= 10 ? '#F7941D' : '#aaa';
+  const pbText  = pb !== null ? pb.toFixed(1) : '—';
+
+  set('resArea',    `${areaM2.toFixed(1)}<span class="result-unit">ตร.ม.</span>`);
+  set('resUsable',  `พื้นที่ใช้งาน ${usableM2.toFixed(1)} ตร.ม.`);
+  set('resPanels',  `${panels}<span class="result-unit">แผง</span>`);
+  set('resKW',      `${kw.toFixed(1)}<span class="result-unit">kW</span>`);
+  set('resKWh',     `${fmt(moKWh)}<span class="result-unit">หน่วย/เดือน</span>`);
+  set('resKWhYear', `${fmt(moKWh * 12)} หน่วย/ปี`);
+  set('resSave',    `${fmt(moSave)}<span class="result-unit">฿/เดือน</span>`);
+  set('resSaveYear',`${fmt(yrSave)} ฿/ปี`);
+  set('resCost',    `${fmt(cost)}<span class="result-unit">฿</span>`);
+
+  const pbEl = document.getElementById('resPayback');
+  pbEl.innerHTML = `<span style="color:${pbColor}">${pbText}</span><span class="result-unit">ปี</span>`;
+
+  document.getElementById('stepsView').style.display   = 'none';
+  document.getElementById('resultsView').style.display = 'flex';
+}
+
+function set(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+function showSteps() {
+  document.getElementById('stepsView').style.display   = 'block';
+  document.getElementById('resultsView').style.display = 'none';
+}
+
+document.getElementById('redrawBtn').addEventListener('click', () => {
+  drawnItems.clearLayers();
+  showSteps();
+});
+
+// ── Address search (Nominatim, free) ─────────
+const searchInput = document.getElementById('searchInput');
+const searchBtn   = document.getElementById('searchBtn');
+const suggestBox  = document.getElementById('suggestions');
+let debounce = null;
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounce);
+  const q = searchInput.value.trim();
+  if (q.length < 3) { suggestBox.style.display = 'none'; return; }
+  debounce = setTimeout(() => fetchSuggestions(q), 350);
+});
+
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); doSearch(searchInput.value.trim()); }
+});
+
+searchBtn.addEventListener('click', () => doSearch(searchInput.value.trim()));
+
+async function fetchSuggestions(q) {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=th`;
+    const data = await fetch(url).then(r => r.json());
+    if (!data.length) { suggestBox.style.display = 'none'; return; }
+    suggestBox.innerHTML = data.map(d =>
+      `<div class="suggestion" data-lat="${d.lat}" data-lon="${d.lon}">${d.display_name}</div>`
+    ).join('');
+    suggestBox.style.display = 'block';
+    suggestBox.querySelectorAll('.suggestion').forEach(el => {
+      el.addEventListener('mousedown', ev => {
+        ev.preventDefault();
+        map.setView([+el.dataset.lat, +el.dataset.lon], 18);
+        searchInput.value = el.textContent;
+        suggestBox.style.display = 'none';
+      });
+    });
+  } catch {}
+}
+
+async function doSearch(q) {
+  if (!q) return;
+  suggestBox.style.display = 'none';
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&accept-language=th`;
+    const data = await fetch(url).then(r => r.json());
+    if (data.length) {
+      map.setView([+data[0].lat, +data[0].lon], 18);
+    }
+  } catch {}
+}
+
+searchInput.addEventListener('blur', () => {
+  setTimeout(() => { suggestBox.style.display = 'none'; }, 150);
+});
+
+map.on('click', () => { suggestBox.style.display = 'none'; });
+
+window.addEventListener('load', () => map.invalidateSize());
+window.addEventListener('resize', () => map.invalidateSize());
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

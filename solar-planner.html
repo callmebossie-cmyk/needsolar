@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
@@ -289,7 +289,8 @@
         <span class="nav-dropdown-label">Solar Planner <span class="nav-arrow">▾</span></span>
         <ul class="nav-dropdown">
           <div class="nav-dropdown-inner">
-            <li><a href="solar-planner.html">วางแผงบนหลังคา</a></li>
+            <li><a href="solar-planner.html" class="active">วางแผงบนหลังคา</a></li>
+            <li><a href="map-planner.html">ดูบ้านบนแผนที่จริง</a></li>
           </div>
         </ul>
       </li>
@@ -297,7 +298,7 @@
       <li><a href="contact.html">ติดต่อเรา</a></li>
       <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
     </ul>
-    <button class="nav-toggle"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -927,5 +928,6 @@ class RoofPlanner {
 // ── Boot ───────────────────────────────────
 const planner = new RoofPlanner();
 </script>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -127,7 +127,8 @@ body {
   transition: color .2s;
   white-space: nowrap;
 }
-.nav-has-dropdown:hover .nav-dropdown-label { color: var(--orange); }
+.nav-has-dropdown:hover .nav-dropdown-label,
+.nav-dropdown-label.active { color: var(--orange); }
 .nav-arrow {
   font-size: 9px;
   display: inline-block;
@@ -197,6 +198,15 @@ body {
   width: 22px; height: 2px;
   background: var(--text);
   transition: all .3s;
+}
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ── BUTTONS ────────────────────────────────── */
@@ -1269,6 +1279,39 @@ select.form-control {
   }
   .nav-links.open { display: flex; }
   .nav-toggle     { display: flex; }
+  .nav-has-dropdown { width: 100%; }
+  .nav-dropdown {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    padding: 0;
+    display: none;
+    width: 100%;
+    z-index: auto;
+    transition: none;
+  }
+  .nav-has-dropdown:hover .nav-dropdown,
+  .nav-has-dropdown.open .nav-dropdown {
+    display: block;
+  }
+  .nav-dropdown-inner {
+    background: transparent;
+    border: none;
+    border-left: 2px solid var(--orange);
+    min-width: 0;
+    box-shadow: none;
+    margin-left: 10px;
+    margin-top: 6px;
+  }
+  .nav-dropdown li a {
+    padding: 8px 12px;
+    border: none;
+  }
+  .nav-dropdown li a:hover {
+    background: transparent;
+    padding-left: 16px;
+  }
   .services-grid, .packages-grid, .proj-grid,
   .metrics-grid, .stats-grid, .steps-grid,
   .contact-info-grid, .contact-main { grid-template-columns: 1fr; }
