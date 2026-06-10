@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="stylesheet" href="css/cc-theme.css">
   <style>
     #calcResults {
       border-top: 3px solid var(--border);
@@ -385,8 +387,8 @@
     <div class="footer-bottom">
       <p class="f-copy">© 2024 NEED SOLAR Co., Ltd. All rights reserved.</p>
       <ul class="f-bot-links">
-        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
-        <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+        <li><a href="privacy-policy.html">นโยบายความเป็นส่วนตัว</a></li>
+        <li><a href="cookie-policy.html">นโยบายคุกกี้</a></li>
       </ul>
     </div>
   </div>
@@ -394,6 +396,8 @@
 
 <button class="btt" aria-label="Back to top">↑</button>
 <script src="js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+<script defer src="js/cookie-consent.js"></script>
 <script>
   // Radio opt visual feedback
   document.querySelectorAll('.radio-opt input').forEach(input => {

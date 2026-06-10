@@ -316,17 +316,20 @@ body {
 .hero-tag {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: var(--orange-dim);
-  border: 1px solid var(--orange-border);
-  color: var(--orange);
+  gap: 14px;
+  color: var(--text-muted);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 600;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  padding: 6px 16px;
-  border-radius: 2px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+}
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--orange);
+  flex-shrink: 0;
 }
 .hero-title {
   font-size: clamp(40px, 6.5vw, 80px);
@@ -469,59 +472,104 @@ body {
   flex-shrink: 0;
 }
 
+/* ── BRANDS ─────────────────────────────────── */
+.brands-sec {
+  padding: var(--section-pad);
+  background: #181818;
+  border: none;
+}
+.brands-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 48px 80px;
+  margin-top: 48px;
+}
+/*
+ * BRAND LOGO BALANCE — เมื่อเพิ่ม logo ใหม่ให้เช็คดังนี้:
+ * 1. logo ทุกตัวอยู่ใน box 260×110px (object-fit: contain)
+ * 2. แต่ละ logo มี transparent space รอบ mark ไม่เท่ากัน → ใช้ transform: scale() แก้ balance
+ * 3. วัด visual height ของ mark จริงๆ แล้วคำนวณ: scale = target_height / visual_height
+ *    ตัวอย่างปัจจุบัน (target = 50px):
+ *      Deye   ~25px → scale(2.0)
+ *      Huawei ~60px → scale(1.1)
+ *      ATMOCE ~20px → scale(2.5)   + filter:invert(1) เพราะ logo สีดำ
+ *      LONGi  ~43px → scale(1.15)
+ *      TMDA   ~70px → scale(0.95)
+ * 4. overflow: visible บน .brand-item คือ intentional — ให้ logo ที่ scale ขึ้นไม่ถูก clip
+ * 5. เพิ่ม gap ใน .brands-grid ถ้า logo overlap กันหลัง scale
+ */
+.brand-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  width: 260px;
+  height: 110px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+.brand-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.brands-grid .brand-item:nth-child(1) img { transform: scale(2.0); }
+.brands-grid .brand-item:nth-child(2) img { transform: scale(1.1); }
+.brands-grid .brand-item:nth-child(3) img { transform: scale(2.5); mix-blend-mode: normal; filter: invert(1); }
+.brands-grid .brand-item:nth-child(4) img { transform: scale(1.15); }
+.brands-grid .brand-item:nth-child(5) img { transform: scale(0.95); }
+
 /* ── SERVICES ───────────────────────────────── */
 .services-sec {
   padding: var(--section-pad);
   background: var(--bg-base);
 }
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
 }
 .svc-card {
-  background: var(--bg-card);
-  padding: 36px 30px;
-  position: relative;
-  overflow: hidden;
-  transition: background .2s;
-}
-.svc-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: transparent;
-  transition: background .2s;
-}
-.svc-card:hover { background: var(--bg-card2); }
-.svc-card:hover::before { background: var(--orange); }
-.svc-icon {
-  width: 46px; height: 46px;
-  background: var(--orange-dim);
-  border: 1px solid var(--orange-border);
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 22px;
-  font-size: 20px;
+  gap: 0 36px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  transition: padding-left .2s;
 }
+.svc-card:hover { padding-left: 10px; }
+.svc-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--orange);
+  font-feature-settings: 'tnum';
+  flex-shrink: 0;
+}
+.svc-body { min-width: 0; }
 .svc-title {
   font-size: 17px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .svc-desc {
   font-size: 13px;
   color: var(--text-sec);
-  line-height: 1.75;
-  margin-bottom: 22px;
+  line-height: 1.7;
+  margin: 0;
 }
 .svc-link {
-  color: var(--orange);
+  color: var(--text-muted);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .5px;
@@ -529,9 +577,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: gap .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color .2s, gap .2s;
 }
-.svc-link:hover { gap: 10px; }
+.svc-card:hover .svc-link { color: var(--orange); gap: 10px; }
 
 /* ── WHY US ─────────────────────────────────── */
 .why-sec {
@@ -552,29 +602,18 @@ body {
   flex-direction: column;
 }
 .why-feat {
-  display: flex;
-  gap: 18px;
   padding: 22px 24px;
   border-bottom: 1px solid var(--border);
-  transition: background .2s;
+  border-left: 2px solid transparent;
+  transition: background .2s, border-left-color .2s;
 }
 .why-feat:last-child { border-bottom: none; }
-.why-feat:hover { background: rgba(247,148,29,.04); }
-.why-feat-icon {
-  width: 38px; height: 38px;
-  background: var(--orange-dim);
-  border: 1px solid var(--orange-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 17px;
-}
+.why-feat:hover { background: rgba(247,148,29,.04); border-left-color: var(--orange); }
 .why-feat-title {
   font-size: 14px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 .why-feat-desc {
   font-size: 13px;
@@ -754,41 +793,6 @@ body {
 }
 
 /* ── EQUIPMENT BRANDS ───────────────────────── */
-.brands-sec {
-  padding: 52px 0;
-  background: var(--bg-section);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.brands-label {
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 32px;
-}
-.brands-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  flex-wrap: wrap;
-}
-.brand-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 14px 28px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all .2s;
-}
-.brand-item:hover { border-color: var(--orange-border); color: var(--orange); }
-
 /* ── COMPARISON TABLE ───────────────────────── */
 .table-sec {
   padding: var(--section-pad);
@@ -1084,30 +1088,22 @@ select.form-control {
 .ci-card {
   background: var(--bg-card);
   padding: 28px;
-  text-align: center;
+  text-align: left;
   transition: background .2s;
 }
 .ci-card:hover { background: var(--bg-card2); }
-.ci-icon {
-  width: 46px; height: 46px;
-  background: var(--orange-dim);
-  border: 1px solid var(--orange-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 20px;
-}
+.ci-card:hover .ci-label { color: var(--orange); }
 .ci-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  transition: color .2s;
 }
 .ci-value { font-size: 16px; font-weight: 700; color: var(--text); }
-.ci-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.ci-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
 .contact-main {
   display: grid;
@@ -1258,6 +1254,8 @@ select.form-control {
 
 /* ── RESPONSIVE ─────────────────────────────── */
 @media (max-width: 1024px) {
+  .brands-grid { gap: 36px 60px; }
+  .brand-item  { width: 200px; height: 85px; }
   .about-grid, .why-grid { grid-template-columns: 1fr; gap: 40px; }
   .calc-wrap             { grid-template-columns: 1fr; }
   .calc-result-card      { position: static; }
@@ -1312,11 +1310,15 @@ select.form-control {
     background: transparent;
     padding-left: 16px;
   }
-  .services-grid, .packages-grid, .proj-grid,
+  .packages-grid, .proj-grid,
   .metrics-grid, .stats-grid, .steps-grid,
   .contact-info-grid, .contact-main { grid-template-columns: 1fr; }
+  .svc-card { grid-template-columns: 40px 1fr; gap: 0 20px; }
+  .svc-link { grid-column: 2; margin-top: 10px; }
   .metric-item, .stat-item, .step-card { border-right: none; border-bottom: 1px solid var(--border); }
   .stat-item:last-child, .metric-item:last-child { border-bottom: none; }
+  .brands-grid   { gap: 20px 40px; }
+  .brand-item    { width: 160px; height: 70px; }
   .footer-grid   { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
   .cta-inner     { flex-direction: column; text-align: center; }

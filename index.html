@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="stylesheet" href="css/cc-theme.css">
 </head>
 <body>
 
@@ -41,7 +43,7 @@
   <div class="hero-grid-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <div class="hero-tag">⚡ ผู้เชี่ยวชาญโซลาร์เซลล์ครบวงจร</div>
+    <div class="hero-tag">ผู้เชี่ยวชาญโซลาร์เซลล์ครบวงจร</div>
     <h1 class="hero-title">
       <span class="hi">ลดค่าไฟ ลดโลกร้อน</span>
       <span class="ho">เพิ่มคุณค่า</span>
@@ -129,6 +131,34 @@
   </div>
 </section>
 
+<!-- BRANDS -->
+<section class="brands-sec">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="sec-label">พันธมิตรของเรา</span>
+      <div class="divider center"></div>
+      <h2 class="sec-title">แบรนด์ที่<span> ร่วมกับเรา</span></h2>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-item">
+        <img src="logo/transparent/deye.png" alt="Deye">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/huawei.png" alt="Huawei">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/atmoce.png" alt="ATMOCE">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/longi.png" alt="LONGi">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/logo-all-12.png" alt="Logo All 12">
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICES -->
 <section class="services-sec">
   <div class="container">
@@ -140,39 +170,51 @@
     </div>
     <div class="services-grid">
       <div class="svc-card">
-        <div class="svc-icon">🏠</div>
-        <div class="svc-title">Solar Rooftop บ้านพักอาศัย</div>
-        <p class="svc-desc">ระบบโซลาร์สำหรับบ้านและคอนโด ลดค่าไฟได้ถึง 80% คืนทุนใน 5–7 ปี ติดตั้งรวดเร็ว ไม่กระทบโครงสร้างอาคาร</p>
+        <div class="svc-num">01</div>
+        <div class="svc-body">
+          <div class="svc-title">Solar Rooftop บ้านพักอาศัย</div>
+          <p class="svc-desc">ระบบโซลาร์สำหรับบ้านและคอนโด ลดค่าไฟได้ถึง 80% คืนทุนใน 5–7 ปี ติดตั้งรวดเร็ว ไม่กระทบโครงสร้างอาคาร</p>
+        </div>
         <a href="products.html" class="svc-link">ดูแพ็กเกจ →</a>
       </div>
       <div class="svc-card">
-        <div class="svc-icon">🏢</div>
-        <div class="svc-title">Solar สำหรับธุรกิจ</div>
-        <p class="svc-desc">โซลูชันสำหรับอาคารสำนักงาน โรงแรม ห้างสรรพสินค้า ลดต้นทุนพลังงานและสร้างภาพลักษณ์องค์กรสีเขียว</p>
+        <div class="svc-num">02</div>
+        <div class="svc-body">
+          <div class="svc-title">Solar สำหรับธุรกิจ</div>
+          <p class="svc-desc">โซลูชันสำหรับอาคารสำนักงาน โรงแรม ห้างสรรพสินค้า ลดต้นทุนพลังงานและสร้างภาพลักษณ์องค์กรสีเขียว</p>
+        </div>
         <a href="products.html" class="svc-link">ดูแพ็กเกจ →</a>
       </div>
       <div class="svc-card">
-        <div class="svc-icon">🏭</div>
-        <div class="svc-title">Solar โรงงานอุตสาหกรรม</div>
-        <p class="svc-desc">ระบบขนาดใหญ่สำหรับโรงงาน คลังสินค้า นิคมอุตสาหกรรม ROI สูง ลดค่าไฟได้หลักล้านบาทต่อปี</p>
+        <div class="svc-num">03</div>
+        <div class="svc-body">
+          <div class="svc-title">Solar โรงงานอุตสาหกรรม</div>
+          <p class="svc-desc">ระบบขนาดใหญ่สำหรับโรงงาน คลังสินค้า นิคมอุตสาหกรรม ROI สูง ลดค่าไฟได้หลักล้านบาทต่อปี</p>
+        </div>
         <a href="products.html" class="svc-link">ดูแพ็กเกจ →</a>
       </div>
       <div class="svc-card">
-        <div class="svc-icon">🌾</div>
-        <div class="svc-title">Solar เกษตรกรรม</div>
-        <p class="svc-desc">ระบบสูบน้ำพลังแสงอาทิตย์ โซลาร์ฟาร์ม เพิ่มผลผลิตลดต้นทุน เหมาะสำหรับพื้นที่ห่างไกลระบบไฟฟ้า</p>
+        <div class="svc-num">04</div>
+        <div class="svc-body">
+          <div class="svc-title">Solar เกษตรกรรม</div>
+          <p class="svc-desc">ระบบสูบน้ำพลังแสงอาทิตย์ โซลาร์ฟาร์ม เพิ่มผลผลิตลดต้นทุน เหมาะสำหรับพื้นที่ห่างไกลระบบไฟฟ้า</p>
+        </div>
         <a href="products.html" class="svc-link">ดูแพ็กเกจ →</a>
       </div>
       <div class="svc-card">
-        <div class="svc-icon">🔋</div>
-        <div class="svc-title">ระบบกักเก็บพลังงาน BESS</div>
-        <p class="svc-desc">Battery Energy Storage System สำรองพลังงานไว้ใช้เวลากลางคืน ลดการพึ่งพาไฟฟ้าจากการไฟฟ้าได้ทั้งวัน</p>
+        <div class="svc-num">05</div>
+        <div class="svc-body">
+          <div class="svc-title">ระบบกักเก็บพลังงาน BESS</div>
+          <p class="svc-desc">Battery Energy Storage System สำรองพลังงานไว้ใช้เวลากลางคืน ลดการพึ่งพาไฟฟ้าจากการไฟฟ้าได้ทั้งวัน</p>
+        </div>
         <a href="products.html" class="svc-link">ดูแพ็กเกจ →</a>
       </div>
       <div class="svc-card">
-        <div class="svc-icon">🔧</div>
-        <div class="svc-title">บำรุงรักษาและซ่อมแซม</div>
-        <p class="svc-desc">บริการตรวจสอบ ทำความสะอาด และซ่อมบำรุงระบบโซลาร์ทุกยี่ห้อ โดยช่างผู้เชี่ยวชาญประจำทุกจังหวัด</p>
+        <div class="svc-num">06</div>
+        <div class="svc-body">
+          <div class="svc-title">บำรุงรักษาและซ่อมแซม</div>
+          <p class="svc-desc">บริการตรวจสอบ ทำความสะอาด และซ่อมบำรุงระบบโซลาร์ทุกยี่ห้อ โดยช่างผู้เชี่ยวชาญประจำทุกจังหวัด</p>
+        </div>
         <a href="contact.html" class="svc-link">ติดต่อช่าง →</a>
       </div>
     </div>
@@ -198,39 +240,24 @@
       </div>
       <div class="why-features">
         <div class="why-feat">
-          <div class="why-feat-icon">📐</div>
-          <div>
-            <div class="why-feat-title">ออกแบบเฉพาะสำหรับคุณ</div>
-            <div class="why-feat-desc">วิศวกรออกแบบระบบที่เหมาะสมกับพฤติกรรมการใช้ไฟและพื้นที่จริงในราคาที่คุ้มค่าที่สุด</div>
-          </div>
+          <div class="why-feat-title">ออกแบบเฉพาะสำหรับคุณ</div>
+          <div class="why-feat-desc">วิศวกรออกแบบระบบที่เหมาะสมกับพฤติกรรมการใช้ไฟและพื้นที่จริงในราคาที่คุ้มค่าที่สุด</div>
         </div>
         <div class="why-feat">
-          <div class="why-feat-icon">🏆</div>
-          <div>
-            <div class="why-feat-title">อุปกรณ์มาตรฐานสากล</div>
-            <div class="why-feat-desc">เลือกใช้แผงโซลาร์และอินเวอร์เตอร์จากแบรนด์ชั้นนำที่ได้รับการรับรองระดับโลก Tier-1 เท่านั้น</div>
-          </div>
+          <div class="why-feat-title">อุปกรณ์มาตรฐานสากล</div>
+          <div class="why-feat-desc">เลือกใช้แผงโซลาร์และอินเวอร์เตอร์จากแบรนด์ชั้นนำที่ได้รับการรับรองระดับโลก Tier-1 เท่านั้น</div>
         </div>
         <div class="why-feat">
-          <div class="why-feat-icon">📊</div>
-          <div>
-            <div class="why-feat-title">มอนิเตอร์ Real-time</div>
-            <div class="why-feat-desc">แอปพลิเคชันติดตามการผลิตพลังงาน ดูข้อมูลได้ตลอด 24 ชั่วโมง แจ้งเตือนอัตโนมัติเมื่อมีปัญหา</div>
-          </div>
+          <div class="why-feat-title">มอนิเตอร์ Real-time</div>
+          <div class="why-feat-desc">แอปพลิเคชันติดตามการผลิตพลังงาน ดูข้อมูลได้ตลอด 24 ชั่วโมง แจ้งเตือนอัตโนมัติเมื่อมีปัญหา</div>
         </div>
         <div class="why-feat">
-          <div class="why-feat-icon">🛡️</div>
-          <div>
-            <div class="why-feat-title">รับประกัน 25 ปี</div>
-            <div class="why-feat-desc">รับประกันประสิทธิภาพแผงโซลาร์ 25 ปี อินเวอร์เตอร์ 10 ปี งานติดตั้ง 5 ปี</div>
-          </div>
+          <div class="why-feat-title">รับประกัน 25 ปี</div>
+          <div class="why-feat-desc">รับประกันประสิทธิภาพแผงโซลาร์ 25 ปี อินเวอร์เตอร์ 10 ปี งานติดตั้ง 5 ปี</div>
         </div>
         <div class="why-feat">
-          <div class="why-feat-icon">💳</div>
-          <div>
-            <div class="why-feat-title">ช่วยจัดหาสินเชื่อ</div>
-            <div class="why-feat-desc">ประสานงานสินเชื่อโซลาร์กับธนาคารชั้นนำ ดอกเบี้ยต่ำพิเศษ ผ่อนนานสูงสุด 10 ปี</div>
-          </div>
+          <div class="why-feat-title">ช่วยจัดหาสินเชื่อ</div>
+          <div class="why-feat-desc">ประสานงานสินเชื่อโซลาร์กับธนาคารชั้นนำ ดอกเบี้ยต่ำพิเศษ ผ่อนนานสูงสุด 10 ปี</div>
         </div>
       </div>
     </div>
@@ -305,8 +332,8 @@
     <div class="footer-bottom">
       <p class="f-copy">© 2024 NEED SOLAR Co., Ltd. All rights reserved.</p>
       <ul class="f-bot-links">
-        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
-        <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+        <li><a href="privacy-policy.html">นโยบายความเป็นส่วนตัว</a></li>
+        <li><a href="cookie-policy.html">นโยบายคุกกี้</a></li>
       </ul>
     </div>
   </div>
@@ -314,5 +341,7 @@
 
 <button class="btt" aria-label="Back to top">↑</button>
 <script src="js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+<script defer src="js/cookie-consent.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="stylesheet" href="css/cc-theme.css">
   <style>
     .form-success {
       display: none;
@@ -105,19 +107,16 @@
     <!-- INFO CARDS -->
     <div class="contact-info-grid">
       <div class="ci-card">
-        <div class="ci-icon">📞</div>
         <div class="ci-label">โทรศัพท์</div>
         <div class="ci-value"><a href="tel:0824984554" style="color:inherit;text-decoration:none;">082-498-4554</a></div>
         <div class="ci-sub">จ.–ส. 08:00–17:00 น.</div>
       </div>
       <div class="ci-card">
-        <div class="ci-icon">✉️</div>
         <div class="ci-label">อีเมล</div>
         <div class="ci-value"><a href="mailto:needsolarcell@gmail.com" style="color:inherit;text-decoration:none;">needsolarcell@gmail.com</a></div>
         <div class="ci-sub">ตอบกลับภายใน 24 ชั่วโมง</div>
       </div>
       <div class="ci-card">
-        <div class="ci-icon">📍</div>
         <div class="ci-label">สำนักงาน</div>
         <div class="ci-value">10/10 หมู่ 10 ต.บางพระ</div>
         <div class="ci-sub">อ.ศรีราชา จ.ชลบุรี 20110</div>
@@ -191,7 +190,7 @@
               <input type="checkbox" required style="margin-top: 3px; accent-color: var(--orange);">
               <span style="font-size: 12px; color: var(--text-sec); line-height: 1.6;">
                 ฉันยินยอมให้ NEED SOLAR ติดต่อกลับตามข้อมูลที่ให้ไว้ และยอมรับ
-                <a href="#" style="color: var(--orange);">นโยบายความเป็นส่วนตัว</a>
+                <a href="privacy-policy.html" style="color: var(--orange);">นโยบายความเป็นส่วนตัว</a>
               </span>
             </label>
           </div>
@@ -211,7 +210,6 @@
       <!-- MAP / SIDE INFO -->
       <div style="display: flex; flex-direction: column;">
         <div class="contact-map-wrap" style="flex: 1;">
-          <div class="map-icon">📍</div>
           <div style="position: relative; z-index: 1; text-align: center; padding: 20px;">
             <div style="font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px;">สำนักงานใหญ่ NEED SOLAR</div>
             <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">10/10 หมู่ 10 ต.บางพระ<br>อ.ศรีราชา จ.ชลบุรี 20110</div>
@@ -303,7 +301,7 @@
     <div class="cta-inner">
       <h2 class="cta-title">ยังมีข้อสงสัย?<br>โทรหาเราได้เลย</h2>
       <div class="cta-actions">
-        <a href="tel:0824984554" class="btn btn-dark">📞 โทรทันที</a>
+        <a href="tel:0824984554" class="btn btn-dark">โทรทันที</a>
         <a href="calculator.html" class="btn btn-onlight">คำนวณโซลาร์ก่อน</a>
       </div>
     </div>
@@ -365,8 +363,8 @@
     <div class="footer-bottom">
       <p class="f-copy">© 2024 NEED SOLAR Co., Ltd. All rights reserved.</p>
       <ul class="f-bot-links">
-        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
-        <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+        <li><a href="privacy-policy.html">นโยบายความเป็นส่วนตัว</a></li>
+        <li><a href="cookie-policy.html">นโยบายคุกกี้</a></li>
       </ul>
     </div>
   </div>
@@ -374,16 +372,55 @@
 
 <button class="btt" aria-label="Back to top">↑</button>
 <script src="js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+<script defer src="js/cookie-consent.js"></script>
 <script>
-  let successTimeout;
-  document.getElementById('contactForm')?.addEventListener('submit', e => {
+  document.getElementById('contactForm')?.addEventListener('submit', async e => {
     e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
     const successEl = document.getElementById('formSuccess');
-    if (successEl) {
+
+    btn.disabled = true;
+    btn.textContent = 'กำลังส่ง...';
+
+    const data = {
+      access_key: 'bb4e5693-da0e-4659-bd57-104f40003c1e',
+      subject: 'ข้อความจากเว็บไซต์ NEED SOLAR',
+      from_name: 'NEED SOLAR Website',
+      to: 'needsolarcell@gmail.com',
+      name:     document.getElementById('fullname').value,
+      phone:    document.getElementById('phone').value,
+      email:    document.getElementById('email').value || '-',
+      service:  document.getElementById('interest').value || '-',
+      province: document.getElementById('province2').value || '-',
+      message:  document.getElementById('message').value || '-',
+    };
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        successEl.textContent = '✓ ส่งข้อความสำเร็จ ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมงในวันทำการ';
+        successEl.style.color = '';
+        successEl.classList.add('show');
+        form.reset();
+        setTimeout(() => successEl.classList.remove('show'), 8000);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (err) {
+      successEl.textContent = '✗ เกิดข้อผิดพลาด กรุณาโทร 082-498-4554 หรือลองใหม่อีกครั้ง';
+      successEl.style.color = '#ff6b6b';
       successEl.classList.add('show');
-      clearTimeout(successTimeout);
-      e.target.reset();
-      successTimeout = setTimeout(() => successEl.classList.remove('show'), 6000);
+      setTimeout(() => successEl.classList.remove('show'), 8000);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'ส่งข้อความ →';
     }
   });
 </script>

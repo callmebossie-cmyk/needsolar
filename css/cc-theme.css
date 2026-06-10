@@ -1,0 +1,83 @@
+/* NEED SOLAR — CookieConsent v3 dark theme override */
+
+#cc-main {
+    --cc-font-family: 'Prompt', 'Noto Sans Thai', sans-serif;
+    --cc-modal-border-radius: 2px;
+    --cc-btn-border-radius: 2px;
+    --cc-overlay-bg: rgba(0, 0, 0, 0.65);
+
+    /* Brand colors */
+    --cc-primary-color: #F7941D;
+    --cc-secondary-color: #A0A0A0;
+
+    /* Background */
+    --cc-bg: #181818;
+    --cc-secondary-bg: #111111;
+
+    /* Text */
+    --cc-text: #F0F0F0;
+    --cc-secondary-text: #A0A0A0;
+
+    /* Buttons — Primary (Accept All) */
+    --cc-btn-primary-bg: #F7941D;
+    --cc-btn-primary-color: #000000;
+    --cc-btn-primary-border-color: #F7941D;
+    --cc-btn-primary-hover-bg: #FF9F2A;
+    --cc-btn-primary-hover-color: #000000;
+    --cc-btn-primary-hover-border-color: #FF9F2A;
+
+    /* Buttons — Secondary (Reject / Manage) */
+    --cc-btn-secondary-bg: transparent;
+    --cc-btn-secondary-color: #A0A0A0;
+    --cc-btn-secondary-border-color: #252525;
+    --cc-btn-secondary-hover-bg: #252525;
+    --cc-btn-secondary-hover-color: #F0F0F0;
+    --cc-btn-secondary-hover-border-color: #303030;
+
+    /* Toggle */
+    --cc-toggle-on-bg: #F7941D;
+    --cc-toggle-off-bg: #252525;
+    --cc-toggle-readonly-bg: #303030;
+    --cc-toggle-on-knob-bg: #000;
+    --cc-toggle-off-knob-bg: #A0A0A0;
+
+    /* Separator / block */
+    --cc-separator-border-color: #252525;
+    --cc-block-bg: #141414;
+    --cc-block-hover-bg: #1E1E1E;
+
+    /* Cookie table */
+    --cc-cookie-table-border: #252525;
+
+    /* Modal shadow */
+    --cc-modal-box-shadow: 0 8px 48px rgba(0, 0, 0, 0.8);
+
+    /* Link */
+    --cc-link-color: #F7941D;
+}
+
+/* Badge ("จำเป็นต้องมี") */
+#cc-main .pm__badge {
+    background: rgba(247, 148, 29, 0.12);
+    color: #F7941D;
+    border: 1px solid rgba(247, 148, 29, 0.28);
+    border-radius: 2px;
+    font-size: 10px;
+    padding: 2px 7px;
+    letter-spacing: 0.5px;
+}
+
+/* Consent modal title */
+#cc-main .cm__title {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Footer links */
+#cc-main .cm__footer a,
+#cc-main .cm__footer a:visited {
+    color: var(--cc-secondary-color);
+}
+#cc-main .cm__footer a:hover {
+    color: var(--cc-primary-color);
+}
