@@ -1,0 +1,8 @@
+# Sensitive / local data files
+token facebook.txt
+contact.txt
+ผลงาน.txt
+
+# OS
+.DS_Store
+Thumbs.db

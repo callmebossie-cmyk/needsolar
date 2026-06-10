@@ -45,49 +45,49 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 
 // Project gallery — filter + pagination
 const PROJ_DATA = [
-  {type:'video',url:'https://www.facebook.com/share/r/18ee5ZYeJx/',name:'โรงงาน ศรีราชา ชลบุรี'},
-  {type:'video',url:'https://www.facebook.com/share/r/1Gn4yTGoSQ/',name:'บ้านพัก ระยอง'},
-  {type:'video',url:'https://www.facebook.com/share/r/18z3sZcEKp/',name:'อาคาร พัทยา ชลบุรี'},
-  {type:'video',url:'https://www.facebook.com/share/r/1EPmo2ZkXY/',name:'โรงงาน อมตะนคร ชลบุรี'},
-  {type:'video',url:'https://www.facebook.com/share/r/14ejqPnxhhX/',name:'บ้านพัก บางพระ ชลบุรี'},
-  {type:'video',url:'https://www.facebook.com/share/r/1E57sjqsT8/',name:'สำนักงาน ชลบุรี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18gTYZi1Ws/',name:'บ้านพักอาศัย ศรีราชา'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18jkBuNsev/',name:'โรงงาน อมตะซิตี้ ชลบุรี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1JHfMfokcE/',name:'อาคารพาณิชย์ บ้านบึง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18cHF9nXnG/',name:'บ้านพัก พัทยาเหนือ'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18qYS9716K/',name:'โรงแรม จอมเทียน'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1UX3UUA7La/',name:'โรงงาน มาบตาพุด ระยอง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1AoeMfejje/',name:'บ้านพัก บ้านฉาง ระยอง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1BcVTX913o/',name:'สำนักงาน ระยอง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1D3Q3ufP7N/',name:'โรงงาน ปลวกแดง ระยอง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1DBfTZnG4g/',name:'บ้านพัก แกลง ระยอง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1CxDHhU4Gp/',name:'บ้านพัก ลาดกระบัง กทม.'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1Dy2TmDr9o/',name:'อาคาร มีนบุรี กทม.'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1MzQdjnsdF/',name:'บ้านพัก บางนา กทม.'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1YxMBd2XE8/',name:'โกดัง สมุทรปราการ'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1BLE3goZbX/',name:'บ้านพัก ปากน้ำ สมุทรปราการ'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1HNTE4uzpQ/',name:'บ้านพัก แปดริ้ว ฉะเชิงเทรา'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1DAzvm4tx4/',name:'โรงงาน พนมสารคาม'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18hCtsJgTL/',name:'บ้านพัก กบินทร์บุรี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1C2bJa5Azf/',name:'สำนักงาน สระแก้ว'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18c9tbCHLn/',name:'บ้านพัก ปราจีนบุรี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1E9K7jN492/',name:'โรงงาน โคราช'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18qKo4w2Lj/',name:'บ้านพัก ปากช่อง'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1GPKpdcba1/',name:'อาคาร ขอนแก่น'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1DyJEQvfc5/',name:'บ้านพัก อุดรธานี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/17vks1xZ5y/',name:'โรงงาน นครราชสีมา'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18oigaPboA/',name:'บ้านพัก เชียงใหม่'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1CYFEV5pZg/',name:'อาคาร สันกำแพง เชียงใหม่'},
-  {type:'photo',url:'https://www.facebook.com/share/p/191HLQZMKf/',name:'โรงงาน ลำพูน'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1EktQAnwKW/',name:'บ้านพัก เชียงราย'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1EE5hFgNxs/',name:'รีสอร์ท แม่ริม เชียงใหม่'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1CeqTtsg6J/',name:'รีสอร์ท ภูเก็ต'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1JFKbF8CAt/',name:'โรงแรม กะตะ ภูเก็ต'},
-  {type:'photo',url:'https://www.facebook.com/share/p/14ghmEwwvRy/',name:'บ้านพัก สมุย สุราษฎร์ธานี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1EGUsSyWQF/',name:'อาคาร หาดใหญ่ สงขลา'},
-  {type:'photo',url:'https://www.facebook.com/share/p/1LTbPMkZEy/',name:'บ้านพัก กระบี่'},
-  {type:'photo',url:'https://www.facebook.com/share/p/18d3Ypcgae/',name:'บ้านพัก กาญจนบุรี'},
-  {type:'photo',url:'https://www.facebook.com/share/p/17cWwsPx5D/',name:'โรงงาน ราชบุรี'},
+  {type:'video',url:'https://www.facebook.com/share/r/18ee5ZYeJx/',name:'โรงงาน ศรีราชา ชลบุรี',img:'img/projects/thumb-001.jpg'},
+  {type:'video',url:'https://www.facebook.com/share/r/1Gn4yTGoSQ/',name:'บ้านพัก ระยอง',img:'img/projects/thumb-002.jpg'},
+  {type:'video',url:'https://www.facebook.com/share/r/18z3sZcEKp/',name:'อาคาร พัทยา ชลบุรี',img:'img/projects/thumb-003.jpg'},
+  {type:'video',url:'https://www.facebook.com/share/r/1EPmo2ZkXY/',name:'โรงงาน อมตะนคร ชลบุรี',img:'img/projects/thumb-004.jpg'},
+  {type:'video',url:'https://www.facebook.com/share/r/14ejqPnxhhX/',name:'บ้านพัก บางพระ ชลบุรี',img:'img/projects/thumb-005.jpg'},
+  {type:'video',url:'https://www.facebook.com/share/r/1E57sjqsT8/',name:'สำนักงาน ชลบุรี',img:'img/projects/thumb-006.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18gTYZi1Ws/',name:'บ้านพักอาศัย ศรีราชา',img:'img/projects/thumb-007.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18jkBuNsev/',name:'โรงงาน อมตะซิตี้ ชลบุรี',img:'img/projects/thumb-008.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1JHfMfokcE/',name:'อาคารพาณิชย์ บ้านบึง',img:'img/projects/thumb-009.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18cHF9nXnG/',name:'บ้านพัก พัทยาเหนือ',img:'img/projects/thumb-010.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18qYS9716K/',name:'โรงแรม จอมเทียน',img:'img/projects/thumb-011.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1UX3UUA7La/',name:'โรงงาน มาบตาพุด ระยอง',img:'img/projects/thumb-012.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1AoeMfejje/',name:'บ้านพัก บ้านฉาง ระยอง',img:'img/projects/thumb-013.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1BcVTX913o/',name:'สำนักงาน ระยอง',img:'img/projects/thumb-014.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1D3Q3ufP7N/',name:'โรงงาน ปลวกแดง ระยอง',img:'img/projects/thumb-015.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1DBfTZnG4g/',name:'บ้านพัก แกลง ระยอง',img:'img/projects/thumb-016.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1CxDHhU4Gp/',name:'บ้านพัก ลาดกระบัง กทม.',img:'img/projects/thumb-017.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1Dy2TmDr9o/',name:'อาคาร มีนบุรี กทม.',img:'img/projects/thumb-018.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1MzQdjnsdF/',name:'บ้านพัก บางนา กทม.',img:'img/projects/thumb-019.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1YxMBd2XE8/',name:'โกดัง สมุทรปราการ',img:'img/projects/thumb-020.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1BLE3goZbX/',name:'บ้านพัก ปากน้ำ สมุทรปราการ',img:'img/projects/thumb-021.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1HNTE4uzpQ/',name:'บ้านพัก แปดริ้ว ฉะเชิงเทรา',img:'img/projects/thumb-022.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1DAzvm4tx4/',name:'โรงงาน พนมสารคาม',img:'img/projects/thumb-023.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18hCtsJgTL/',name:'บ้านพัก กบินทร์บุรี',img:'img/projects/thumb-024.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1C2bJa5Azf/',name:'สำนักงาน สระแก้ว',img:'img/projects/thumb-025.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18c9tbCHLn/',name:'บ้านพัก ปราจีนบุรี',img:'img/projects/thumb-026.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1E9K7jN492/',name:'โรงงาน โคราช',img:'img/projects/thumb-027.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18qKo4w2Lj/',name:'บ้านพัก ปากช่อง',img:'img/projects/thumb-028.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1GPKpdcba1/',name:'อาคาร ขอนแก่น',img:'img/projects/thumb-029.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1DyJEQvfc5/',name:'บ้านพัก อุดรธานี',img:'img/projects/thumb-030.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/17vks1xZ5y/',name:'โรงงาน นครราชสีมา',img:'img/projects/thumb-031.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18oigaPboA/',name:'บ้านพัก เชียงใหม่',img:'img/projects/thumb-032.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1CYFEV5pZg/',name:'อาคาร สันกำแพง เชียงใหม่',img:'img/projects/thumb-033.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/191HLQZMKf/',name:'โรงงาน ลำพูน',img:'img/projects/thumb-034.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1EktQAnwKW/',name:'บ้านพัก เชียงราย',img:'img/projects/thumb-035.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1EE5hFgNxs/',name:'รีสอร์ท แม่ริม เชียงใหม่',img:'img/projects/thumb-036.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1CeqTtsg6J/',name:'รีสอร์ท ภูเก็ต',img:'img/projects/thumb-037.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1JFKbF8CAt/',name:'โรงแรม กะตะ ภูเก็ต',img:'img/projects/thumb-038.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/14ghmEwwvRy/',name:'บ้านพัก สมุย สุราษฎร์ธานี',img:'img/projects/thumb-039.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1EGUsSyWQF/',name:'อาคาร หาดใหญ่ สงขลา',img:'img/projects/thumb-040.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/1LTbPMkZEy/',name:'บ้านพัก กระบี่',img:'img/projects/thumb-041.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/18d3Ypcgae/',name:'บ้านพัก กาญจนบุรี',img:'img/projects/thumb-042.jpg'},
+  {type:'photo',url:'https://www.facebook.com/share/p/17cWwsPx5D/',name:'โรงงาน ราชบุรี',img:'img/projects/thumb-043.jpg'},
 ];
 
 const CARDS_PER_PAGE = 9;
@@ -104,10 +104,11 @@ function renderProjGrid() {
   const slice = filtered.slice((projPage - 1) * CARDS_PER_PAGE, projPage * CARDS_PER_PAGE);
   grid.innerHTML = slice.map(item => {
     const isVid = item.type === 'video';
+    const thumbStyle = item.img ? ' style="background-image:url(\'' + item.img + '\');background-size:cover;background-position:center;"' : '';
+    const thumbIcon = item.img ? '' : '<div class="fb-circle ' + (isVid ? 'fb-circle-v">&#9654;' : 'fb-circle-p">&#9724;') + '</div>';
     return '<div class="proj-card fb-card" data-type="' + item.type + '" onclick="window.open(\'' + item.url + '\',\'_blank\')">' +
-      '<div class="fb-thumb ' + (isVid ? 'fb-thumb-video' : 'fb-thumb-photo') + '">' +
-      '<span class="fb-badge">' + (isVid ? 'Facebook Reels' : 'Facebook Post') + '</span>' +
-      '<div class="fb-circle ' + (isVid ? 'fb-circle-v">&#9654;' : 'fb-circle-p">&#9724;') + '</div>' +
+      '<div class="fb-thumb ' + (isVid ? 'fb-thumb-video' : 'fb-thumb-photo') + '"' + thumbStyle + '>' +
+      thumbIcon +
       '</div>' +
       '<div class="proj-overlay">' +
       '<div class="proj-type ' + (isVid ? 'fb-type-video">วิดีโอ' : 'fb-type-photo">รูปภาพ') + '</div>' +
