@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
@@ -14,56 +14,6 @@
       border-top: 3px solid var(--border);
       transition: border-top-color .3s;
     }
-    .steps-progress {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 28px;
-    }
-    .sp-step {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-    .sp-num {
-      width: 28px; height: 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-    .sp-num.done { background: var(--orange); color: #000; border-color: var(--orange); }
-    .sp-lbl { font-size: 12px; color: var(--text-muted); }
-    .sp-line { flex: 1; height: 1px; background: var(--border); margin: 0 8px; }
-    .range-wrap { position: relative; }
-    input[type=range] {
-      width: 100%;
-      -webkit-appearance: none;
-      height: 4px;
-      background: var(--border);
-      outline: none;
-      border-radius: 0;
-      cursor: pointer;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px; height: 18px;
-      background: var(--orange);
-      cursor: pointer;
-      border-radius: 50%;
-    }
-    .range-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 6px;
-    }
-    .range-labels span { font-size: 11px; color: var(--text-muted); }
     .radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
     .radio-opt {
       display: flex;
@@ -85,6 +35,62 @@
       color: var(--orange);
       background: var(--orange-dim);
     }
+    #packagesSection { display: none; margin-top: 40px; }
+    #packagesSection.show { display: block; }
+    .recommendation-box {
+      background: var(--bg-card);
+      border-left: 3px solid var(--orange);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--text-sec);
+    }
+    .packages-head { margin-bottom: 20px; }
+    .packages-head h3 { font-size: 18px; font-weight: 700; color: var(--text-main); }
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .pkg-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 20px;
+      transition: border-color .2s, transform .2s;
+    }
+    .pkg-card:hover { border-color: var(--orange); transform: translateY(-3px); }
+    .pkg-card.recommended { border-color: var(--orange); border-width: 2px; }
+    .pkg-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+    }
+    .pkg-brand { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; }
+    .pkg-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-sec);
+    }
+    .pkg-row:last-of-type { border-bottom: none; }
+    .pkg-row strong { color: var(--text-main); }
+    .pkg-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--orange);
+      text-align: center;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .pkg-price span { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+    .no-packages { color: var(--text-muted); font-size: 14px; padding: 20px 0; }
   </style>
 </head>
 <body>
@@ -95,7 +101,7 @@
     <a href="index.html" class="nav-logo"><img src="img/Asset 1.png" alt="NEED SOLAR"></a>
     <ul class="nav-links">
       <li><a href="index.html">หน้าหลัก</a></li>
-      <li><a href="products.html">แพ็กเกจ</a></li>
+      <li><a href="products.html">แบรนด์ต่างๆ</a></li>
       <li><a href="calculator.html" class="active">คำนวณโซลาร์</a></li>
       <li class="nav-has-dropdown">
         <span class="nav-dropdown-label">Solar Planner <span class="nav-arrow">▾</span></span>
@@ -125,7 +131,7 @@
         <span>คำนวณโซลาร์</span>
       </div>
       <h1 class="page-title">คำนวณ<span> ขนาดระบบโซลาร์</span></h1>
-      <p class="page-desc">กรอกข้อมูลค่าไฟและพื้นที่หลังคา เราจะคำนวณขนาดระบบที่เหมาะสม มูลค่าที่ประหยัดได้ และระยะเวลาคืนทุน</p>
+      <p class="page-desc">กรอกข้อมูลค่าไฟและพฤติกรรมการใช้งาน เราจะคำนวณขนาดระบบที่เหมาะสม แนะนำแพ็กเกจตามงบประมาณ และประเมินระยะเวลาคืนทุน</p>
     </div>
   </div>
 </section>
@@ -147,26 +153,26 @@
 
               <!-- Bill amount -->
               <div class="form-group">
-                <label class="form-label" for="electricBill">ค่าไฟฟ้าเฉลี่ยต่อเดือน (บาท)</label>
-                <input type="number" id="electricBill" class="form-control"
-                  placeholder="เช่น 3,500" min="500" max="500000" required>
+                <label class="form-label" for="monthlyBill">ค่าไฟฟ้าเฉลี่ยต่อเดือน (บาท)</label>
+                <input type="number" id="monthlyBill" class="form-control"
+                  placeholder="เช่น 3,500" min="0">
                 <div class="form-hint">ดูจากใบเสร็จค่าไฟของเดือนที่ผ่านมา</div>
               </div>
 
-              <!-- Roof area -->
+              <!-- Monthly units -->
               <div class="form-group">
-                <label class="form-label" for="roofArea">พื้นที่หลังคาที่ใช้งานได้ (ตร.ม.) <span style="color:var(--text-muted); font-weight: 400;">ไม่บังคับ</span></label>
-                <input type="number" id="roofArea" class="form-control"
-                  placeholder="เช่น 60" min="0">
-                <div class="form-hint">ใส่เพื่อให้คำนวณแม่นยำขึ้น — แผง 1 kW ใช้พื้นที่ประมาณ 6–8 ตร.ม.</div>
+                <label class="form-label" for="monthlyUnit">หรือจำนวน Unit ที่ใช้ต่อเดือน (kWh) <span style="color:var(--text-muted); font-weight:400;">ไม่บังคับ</span></label>
+                <input type="number" id="monthlyUnit" class="form-control"
+                  placeholder="เช่น 600" min="0">
+                <div class="form-hint">กรอกอย่างใดอย่างหนึ่งก็ได้ — ถ้ากรอกทั้งสองจะใช้ Unit จริง</div>
               </div>
 
               <!-- Building type -->
               <div class="form-group">
                 <label class="form-label">ประเภทอาคาร</label>
-                <div class="radio-group" id="buildingType">
-                  <label class="radio-opt">
-                    <input type="radio" name="btype" value="residential" checked>🏠 บ้านพักอาศัย
+                <div class="radio-group">
+                  <label class="radio-opt checked">
+                    <input type="radio" name="btype" value="home" checked>🏠 บ้านพักอาศัย
                   </label>
                   <label class="radio-opt">
                     <input type="radio" name="btype" value="commercial">🏢 อาคารพาณิชย์
@@ -177,42 +183,34 @@
                 </div>
               </div>
 
-              <!-- Province -->
+              <!-- Usage pattern -->
               <div class="form-group">
-                <label class="form-label" for="province">จังหวัด</label>
-                <select id="province" class="form-control">
-                  <option value="">— เลือกจังหวัด —</option>
-                  <option>กรุงเทพมหานคร</option>
-                  <option>นนทบุรี</option>
-                  <option>ปทุมธานี</option>
-                  <option>สมุทรปราการ</option>
-                  <option>ชลบุรี</option>
-                  <option>ระยอง</option>
-                  <option>ฉะเชิงเทรา</option>
-                  <option>เชียงใหม่</option>
-                  <option>เชียงราย</option>
-                  <option>ขอนแก่น</option>
-                  <option>อุดรธานี</option>
-                  <option>นครราชสีมา</option>
-                  <option>สุราษฎร์ธานี</option>
-                  <option>ภูเก็ต</option>
-                  <option>สงขลา</option>
-                  <option>อื่นๆ</option>
-                </select>
+                <label class="form-label">พฤติกรรมการใช้ไฟ</label>
+                <div class="radio-group">
+                  <label class="radio-opt checked">
+                    <input type="radio" name="upattern" value="day" checked>☀️ กลางวันเป็นหลัก
+                  </label>
+                  <label class="radio-opt">
+                    <input type="radio" name="upattern" value="night">🌙 กลางคืนเป็นหลัก
+                  </label>
+                  <label class="radio-opt">
+                    <input type="radio" name="upattern" value="mixed">🔄 ตลอดวัน
+                  </label>
+                </div>
               </div>
 
-              <!-- Grid type -->
+              <!-- Saving goal -->
               <div class="form-group">
-                <label class="form-label">ระบบที่สนใจ</label>
+                <label class="form-label">เป้าหมายการประหยัดค่าไฟ</label>
                 <div class="radio-group">
                   <label class="radio-opt">
-                    <input type="radio" name="sysType" value="grid" checked>⚡ Grid-tied (ขายไฟได้)
+                    <input type="radio" name="sgoal" value="50">50%
+                  </label>
+                  <label class="radio-opt checked">
+                    <input type="radio" name="sgoal" value="70" checked>70%
                   </label>
                   <label class="radio-opt">
-                    <input type="radio" name="sysType" value="hybrid">🔋 Hybrid (มี Battery)
-                  </label>
-                  <label class="radio-opt">
-                    <input type="radio" name="sysType" value="offgrid">🔌 Off-grid
+                    <input type="radio" name="sgoal" value="100">100% (ปลดระบบ)
                   </label>
                 </div>
               </div>
@@ -237,17 +235,17 @@
           </div>
           <div class="calc-result-body">
             <div class="result-item">
-              <div class="result-lbl">ขนาดระบบที่แนะนำ</div>
+              <div class="result-lbl">ขนาด Inverter ที่แนะนำ</div>
               <div>
                 <div class="result-val"><span id="resKW">—</span></div>
                 <div class="result-unit">kW</div>
               </div>
             </div>
             <div class="result-item">
-              <div class="result-lbl">ผลิตไฟได้ประมาณ</div>
+              <div class="result-lbl">การใช้ไฟต่อเดือน</div>
               <div>
-                <div class="result-val"><span id="resProduction">—</span></div>
-                <div class="result-unit">หน่วย / เดือน</div>
+                <div class="result-val"><span id="resUsage">—</span></div>
+                <div class="result-unit">kWh / เดือน</div>
               </div>
             </div>
             <div class="result-item">
@@ -258,17 +256,17 @@
               </div>
             </div>
             <div class="result-item">
-              <div class="result-lbl">ระยะเวลาคืนทุน</div>
+              <div class="result-lbl">ระยะเวลาคืนทุน (ประมาณ)</div>
               <div>
                 <div class="result-val"><span id="resPayback">—</span></div>
                 <div class="result-unit">ปี</div>
               </div>
             </div>
             <div class="result-item">
-              <div class="result-lbl">CO₂ ที่ลดได้</div>
+              <div class="result-lbl">จำนวนเฟสที่แนะนำ</div>
               <div>
-                <div class="result-val"><span id="resCO2">—</span></div>
-                <div class="result-unit">ตัน CO₂ / เดือน</div>
+                <div class="result-val"><span id="resPhase">—</span></div>
+                <div class="result-unit">เฟส</div>
               </div>
             </div>
           </div>
@@ -283,6 +281,16 @@
         </div>
       </div>
     </div>
+
+    <!-- PACKAGES (full width, revealed after calc) -->
+    <div id="packagesSection">
+      <div class="recommendation-box" id="recommendationBox"></div>
+      <div class="packages-head">
+        <h3>แพ็กเกจที่เหมาะสมกับคุณ</h3>
+      </div>
+      <div class="packages-grid" id="packagesGrid"></div>
+    </div>
+
   </div>
 </section>
 
@@ -359,7 +367,7 @@
         <div class="f-col-title">เมนู</div>
         <ul class="f-links">
           <li><a href="index.html">หน้าหลัก</a></li>
-          <li><a href="products.html">แพ็กเกจ</a></li>
+          <li><a href="products.html">แบรนด์ต่างๆ</a></li>
           <li><a href="calculator.html">คำนวณโซลาร์</a></li>
       <li><a href="solar-planner.html">Solar Planner</a></li>
           <li><a href="projects.html">ผลงาน</a></li>
@@ -410,9 +418,124 @@
       }
     });
   });
-  // init checked state
-  document.querySelectorAll('.radio-opt input:checked').forEach(inp => {
-    inp.closest('.radio-opt')?.classList.add('checked');
+
+  // ── Solar package data ──────────────────────────────────────────
+  const solarData = [
+    {"Band":"Huawei","Phase":1,"Inverter":5,"Panel":8,"price":107590},
+    {"Band":"Huawei","Phase":1,"Inverter":10,"Panel":16,"price":189590},
+    {"Band":"Huawei","Phase":3,"Inverter":5,"Panel":8,"price":134590},
+    {"Band":"Huawei","Phase":3,"Inverter":10,"Panel":16,"price":224590},
+    {"Band":"Huawei","Phase":3,"Inverter":15,"Panel":24,"price":324590},
+    {"Band":"Huawei","Phase":3,"Inverter":20,"Panel":32,"price":396590},
+    {"Band":"Deye","Phase":1,"Inverter":5,"Panel":8,"price":116590},
+    {"Band":"Deye","Phase":1,"Inverter":6,"Panel":10,"price":134590},
+    {"Band":"Deye","Phase":1,"Inverter":8,"Panel":14,"price":182590},
+    {"Band":"Deye","Phase":1,"Inverter":10,"Panel":16,"price":231590},
+    {"Band":"Deye","Phase":1,"Inverter":16,"Panel":27,"price":351590},
+    {"Band":"Deye","Phase":3,"Inverter":5,"Panel":8,"price":162590},
+    {"Band":"Deye","Phase":3,"Inverter":10,"Panel":16,"price":246590},
+    {"Band":"Deye","Phase":3,"Inverter":12,"Panel":20,"price":274590},
+    {"Band":"Deye","Phase":3,"Inverter":15,"Panel":24,"price":329590},
+    {"Band":"Deye","Phase":3,"Inverter":20,"Panel":32,"price":399590},
+    {"Band":"ATOMOS","Phase":1,"Inverter":3,"Panel":6,"price":116590},
+    {"Band":"ATOMOS","Phase":1,"Inverter":4,"Panel":8,"price":149590},
+    {"Band":"ATOMOS","Phase":1,"Inverter":5,"Panel":10,"price":179590},
+    {"Band":"Sigenergy (Tower)","Phase":1,"Inverter":5,"Panel":8,"price":146590},
+    {"Band":"Sigenergy (Tower)","Phase":1,"Inverter":10,"Panel":10,"price":258590},
+    {"Band":"Sigenergy (Tower)","Phase":3,"Inverter":5,"Panel":8,"price":174590},
+    {"Band":"Sigenergy (Tower)","Phase":3,"Inverter":10,"Panel":16,"price":258590},
+    {"Band":"Sigenergy (Tower)","Phase":3,"Inverter":20,"Panel":32,"price":423590},
+    {"Band":"Sigenergy","Phase":1,"Inverter":5,"Panel":8,"price":112590},
+    {"Band":"Sigenergy","Phase":3,"Inverter":10,"Panel":10,"price":176590},
+    {"Band":"TMDA","Phase":1,"Inverter":3,"Panel":5,"price":76590},
+    {"Band":"TMDA","Phase":1,"Inverter":5,"Panel":8,"price":96590},
+    {"Band":"TMDA","Phase":1,"Inverter":10,"Panel":16,"price":158590},
+    {"Band":"TMDA","Phase":3,"Inverter":6,"Panel":10,"price":109590},
+    {"Band":"TMDA","Phase":3,"Inverter":10,"Panel":16,"price":178590},
+    {"Band":"TMDA","Phase":3,"Inverter":15,"Panel":24,"price":234590},
+    {"Band":"TMDA","Phase":3,"Inverter":20,"Panel":32,"price":299590}
+  ];
+
+  // ── Form submit ─────────────────────────────────────────────────
+  document.getElementById('calcForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const monthlyBill = parseFloat(document.getElementById('monthlyBill').value) || 0;
+    const monthlyUnit = parseFloat(document.getElementById('monthlyUnit').value) || 0;
+    const buildingType = document.querySelector('input[name="btype"]:checked')?.value || 'home';
+    const usagePattern = document.querySelector('input[name="upattern"]:checked')?.value || 'day';
+    const savingGoal = parseInt(document.querySelector('input[name="sgoal"]:checked')?.value || '70');
+
+    if (monthlyBill === 0 && monthlyUnit === 0) {
+      alert('กรุณากรอกค่าไฟหรือจำนวน Unit ที่ใช้ต่อเดือน');
+      return;
+    }
+
+    // Prefer direct unit input; fall back to bill ÷ 5 ฿/unit
+    const totalUnit = monthlyUnit > 0 ? monthlyUnit : monthlyBill / 5;
+    const effectiveBill = monthlyBill > 0 ? monthlyBill : totalUnit * 5;
+
+    // Target inverter size
+    const peakKW = (totalUnit / 30) / 5;
+    const efficiency = usagePattern === 'day' ? 1.2 : usagePattern === 'night' ? 0.7 : 1.0;
+    const targetSize = (peakKW * (savingGoal / 100)) / efficiency;
+
+    // Phase: commercial/factory or >10 kW → 3-phase
+    const phase = (buildingType === 'commercial' || buildingType === 'factory' || targetSize > 10) ? 3 : 1;
+
+    // Filter packages ±20-30% of target size, sort by price
+    const suitable = solarData
+      .filter(pkg => pkg.Inverter >= targetSize * 0.8 && pkg.Inverter <= targetSize * 1.3)
+      .sort((a, b) => a.price - b.price);
+
+    const monthlySavings = (effectiveBill * savingGoal) / 100;
+
+    // Update summary card
+    document.getElementById('resKW').textContent = targetSize.toFixed(1);
+    document.getElementById('resUsage').textContent = totalUnit.toFixed(0);
+    document.getElementById('resSavings').textContent = Math.round(monthlySavings).toLocaleString('th-TH');
+    document.getElementById('resPhase').textContent = phase;
+    const cheapest = suitable[0];
+    document.getElementById('resPayback').textContent = (cheapest && monthlySavings > 0)
+      ? (cheapest.price / (monthlySavings * 12)).toFixed(1) : '—';
+    document.getElementById('calcResults').style.borderTopColor = 'var(--orange)';
+
+    // Recommendation text
+    const recMap = {
+      day: 'เหมาะมาก! คุณใช้ไฟกลางวัน จะได้ประโยชน์จากโซลาร์เซลล์สูงสุดโดยไม่ต้องเพิ่มแบตเตอรี่',
+      night: 'แนะนำให้เพิ่ม Battery เพื่อเก็บพลังงานไว้ใช้ตอนกลางคืน จะประหยัดได้มากขึ้น',
+      mixed: 'ใช้ไฟตลอดวัน ระบบ Grid-tied จะช่วยลดค่าไฟในช่วงกลางวัน และขายไฟฟ้าส่วนเกินได้'
+    };
+    document.getElementById('recommendationBox').innerHTML =
+      '<strong style="color:var(--orange)">💡 คำแนะนำ:</strong> ' + recMap[usagePattern];
+
+    // Build package cards — cheapest of each brand
+    const grid = document.getElementById('packagesGrid');
+    grid.innerHTML = '';
+    if (suitable.length === 0) {
+      grid.innerHTML = '<p class="no-packages">ไม่พบแพ็กเกจที่เหมาะสม กรุณาปรับข้อมูลใหม่ หรือ<a href="contact.html" style="color:var(--orange)"> ติดต่อทีมงาน</a>เพื่อออกแบบพิเศษ</p>';
+    } else {
+      const brands = [...new Set(suitable.map(p => p.Band))];
+      brands.map(brand => suitable.find(p => p.Band === brand)).forEach((pkg, i) => {
+        const payback = monthlySavings > 0 ? (pkg.price / (monthlySavings * 12)).toFixed(1) : '—';
+        const card = document.createElement('div');
+        card.className = 'pkg-card' + (i === 0 ? ' recommended' : '');
+        card.innerHTML = `
+          ${i === 0 ? '<div class="pkg-badge">⭐ แนะนำ</div>' : ''}
+          <div class="pkg-brand">${pkg.Band}</div>
+          <div class="pkg-row"><span>ขนาด Inverter</span><strong>${pkg.Inverter} kW</strong></div>
+          <div class="pkg-row"><span>จำนวนแผง</span><strong>${pkg.Panel} แผง</strong></div>
+          <div class="pkg-row"><span>จำนวนเฟส</span><strong>${pkg.Phase} เฟส</strong></div>
+          <div class="pkg-row"><span>คืนทุนประมาณ</span><strong>${payback} ปี</strong></div>
+          <div class="pkg-price">${pkg.price.toLocaleString('th-TH')} บาท <span>รวมติดตั้ง</span></div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Show packages and scroll
+    const sec = document.getElementById('packagesSection');
+    sec.classList.add('show');
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 </script>
 </body>
