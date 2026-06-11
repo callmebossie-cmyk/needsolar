@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เกี่ยวกับเรา — NEED SOLAR</title>
+  <meta name="description" content="Need Solar คือพาร์ทเนอร์ด้านพลังงานแสงอาทิตย์ครบวงจร ให้คำปรึกษา ออกแบบ ติดตั้ง และบริการหลังการขายโดยทีมงานมีประสบการณ์">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="stylesheet" href="css/cc-theme.css">
+
+  <style>
+    /* ── About Page sections ─────────────────────────────── */
+
+    /* Hero reuses .page-hero from style.css */
+
+    /* Intro two-col */
+    .ab-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .ab-intro-text p {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+    .ab-intro-text p:last-child { margin-bottom: 0; }
+    .ab-intro-text strong { color: var(--text); font-weight: 600; }
+
+    /* Stats panel */
+    .ab-stats-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .ab-stat { text-align: center; }
+    .ab-stat-val {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1.1;
+    }
+    .ab-stat-lbl {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Why cards */
+    .ab-why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .ab-why-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 22px;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .ab-why-card:hover {
+      border-color: var(--orange-border);
+      transform: translateY(-3px);
+    }
+    .ab-why-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--orange-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .ab-why-icon svg { width: 26px; height: 26px; }
+    .ab-why-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Steps */
+    .ab-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+      position: relative;
+    }
+    .ab-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: var(--border-light);
+      pointer-events: none;
+    }
+    .ab-step { text-align: center; padding: 0 12px; }
+    .ab-step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--bg-card2);
+      border: 2px solid var(--orange-border);
+      color: var(--orange);
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .ab-step h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .ab-step p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Brand logos */
+    .ab-brands-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .ab-brand-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 100px;
+      transition: border-color .2s;
+    }
+    .ab-brand-card:hover { border-color: var(--orange-border); }
+    .ab-brand-card img {
+      max-height: 40px;
+      max-width: 120px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(.75);
+      transition: filter .2s, opacity .2s;
+    }
+    .ab-brand-card:hover img { filter: brightness(0) invert(1) opacity(1); }
+    .ab-brand-name-only {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-sec);
+    }
+    .ab-brand-card span {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .ab-brands-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Safety section */
+    .ab-safety-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .ab-safety-list {
+      list-style: none;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .ab-safety-list li { display: flex; gap: 16px; align-items: flex-start; }
+    .ab-safety-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ab-safety-icon svg { width: 18px; height: 18px; }
+    .ab-safety-list h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .ab-safety-list p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .ab-highlight-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 12px;
+      padding: 36px 32px;
+    }
+    .ab-highlight-box h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .ab-highlight-box h3 span { color: var(--orange); }
+    .ab-highlight-box p {
+      font-size: 14px;
+      color: var(--text-sec);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .ab-warranty-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ab-badge {
+      background: var(--bg-card2);
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sec);
+    }
+    .ab-badge.orange {
+      background: var(--orange-dim);
+      border-color: var(--orange-border);
+      color: var(--orange);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .ab-intro-grid, .ab-safety-grid { grid-template-columns: 1fr; gap: 36px; }
+      .ab-steps::before { display: none; }
+    }
+    @media (max-width: 600px) {
+      .ab-why-grid { grid-template-columns: 1fr 1fr; }
+      .ab-stats-panel { grid-template-columns: 1fr 1fr; padding: 24px 20px; gap: 20px; }
+      .ab-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 380px) {
+      .ab-why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="img/Asset 1.png" alt="NEED SOLAR"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">หน้าหลัก</a></li>
+      <li><a href="products.html">แบรนด์ต่างๆ</a></li>
+      <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+      <li class="nav-has-dropdown">
+        <span class="nav-dropdown-label">Solar Planner <span class="nav-arrow">▾</span></span>
+        <ul class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <li><a href="solar-planner.html">วางแผงบนหลังคา</a></li>
+            <li><a href="map-planner.html">ดูบ้านบนแผนที่จริง</a></li>
+          </div>
+        </ul>
+      </li>
+      <li><a href="projects.html">ผลงาน</a></li>
+      <li><a href="about.html" class="active">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html">ติดต่อเรา</a></li>
+      <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ═══ 1. HERO ══════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="container">
+    <div class="page-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">หน้าหลัก</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>เกี่ยวกับเรา</span>
+      </div>
+      <h1 class="page-title">เกี่ยวกับ<span> Need Solar</span></h1>
+      <p class="page-desc">พาร์ทเนอร์ด้านพลังงานแสงอาทิตย์ ที่พร้อมดูแลคุณตั้งแต่การให้คำปรึกษา ออกแบบ ติดตั้ง ไปจนถึงบริการหลังการขาย</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+        <a href="contact.html" class="btn btn-primary">ปรึกษาฟรี →</a>
+        <a href="#services" class="btn btn-ghost">ดูบริการของเรา</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. COMPANY INTRODUCTION ══════════════════════════════ -->
+<section class="section" style="padding: var(--section-pad);">
+  <div class="container">
+    <div class="ab-intro-grid">
+      <div class="ab-intro-text">
+        <span class="sec-label">เราคือใคร</span>
+        <div class="divider"></div>
+        <h2 class="sec-title">ครบวงจรตั้งแต่<span> วันแรก</span><br>ถึงวันที่ระบบพร้อมใช้</h2>
+        <p>Need Solar คือผู้ให้บริการด้านระบบโซลาร์เซลล์และพลังงานอัจฉริยะ ที่ตั้งใจช่วยให้บ้านพักอาศัย ธุรกิจ อาคารสำนักงาน โรงงาน และสถานประกอบการต่าง ๆ สามารถ<strong>ลดค่าไฟฟ้า และใช้พลังงานได้อย่างคุ้มค่ามากขึ้นในระยะยาว</strong></p>
+        <p>เราเข้าใจดีว่าการติดตั้งโซลาร์เซลล์ไม่ใช่เพียงแค่การนำแผงไปวางบนหลังคา แต่คือการออกแบบระบบพลังงานให้เหมาะสมกับพฤติกรรมการใช้ไฟของแต่ละพื้นที่ ทุกขั้นตอนจำเป็นต้องอาศัยความรู้ ประสบการณ์ และความใส่ใจในรายละเอียด</p>
+        <p>เราเชื่อว่าพลังงานแสงอาทิตย์ไม่ใช่เรื่องไกลตัวอีกต่อไป แต่คือการลงทุนที่ช่วยลดค่าใช้จ่าย เพิ่มความมั่นคงด้านพลังงาน และเป็นส่วนหนึ่งของอนาคตที่ยั่งยืนกว่าเดิม</p>
+      </div>
+      <div class="ab-stats-panel">
+        <div class="ab-stat">
+          <div class="ab-stat-val">500+</div>
+          <div class="ab-stat-lbl">โครงการสำเร็จแล้ว</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-val">8,500<br><span style="font-size:1rem">kW</span></div>
+          <div class="ab-stat-lbl">กำลังติดตั้งรวม</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-val">12 ปี</div>
+          <div class="ab-stat-lbl">ประสบการณ์</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-val">98%</div>
+          <div class="ab-stat-lbl">ลูกค้าพึงพอใจ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3. WHY NEED SOLAR ═════════════════════════════════════ -->
+<section style="padding: var(--section-pad); background: var(--bg-section);">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto;">
+      <span class="sec-label">จุดแข็งของเรา</span>
+      <div class="divider" style="margin:12px auto 20px;"></div>
+      <h2 class="sec-title">ทำไมต้องเลือก<span> Need Solar</span>?</h2>
+      <p class="sec-desc" style="margin:0 auto;">เราไม่ยึดติดกับสินค้าเพียงแบรนด์เดียว แต่เลือก Solution ที่เหมาะสมกับลูกค้าแต่ละรายได้จริง</p>
+    </div>
+    <div class="ab-why-grid">
+
+      <div class="ab-why-card">
+        <div class="ab-why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>ทีมงานและช่างติดตั้ง<br>มีประสบการณ์</h3>
+      </div>
+
+      <div class="ab-why-card">
+        <div class="ab-why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/><path d="M15 15h2M15 12h2"/>
+          </svg>
+        </div>
+        <h3>ออกแบบระบบตาม<br>การใช้งานจริง</h3>
+      </div>
+
+      <div class="ab-why-card">
+        <div class="ab-why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <h3>เลือกใช้อุปกรณ์จาก<br>แบรนด์ชั้นนำ</h3>
+      </div>
+
+      <div class="ab-why-card">
+        <div class="ab-why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <h3>ให้ความสำคัญกับ<br>ความปลอดภัย</h3>
+      </div>
+
+      <div class="ab-why-card">
+        <div class="ab-why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <h3>ดูแลหลังการติดตั้ง<br>อย่างต่อเนื่อง</h3>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4. SERVICE APPROACH ═══════════════════════════════════ -->
+<section style="padding: var(--section-pad);" id="services">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto;">
+      <span class="sec-label">กระบวนการทำงาน</span>
+      <div class="divider" style="margin:12px auto 20px;"></div>
+      <h2 class="sec-title">แนวทางการให้บริการ<span> ของเรา</span></h2>
+      <p class="sec-desc" style="margin:0 auto;">ดูแลคุณตั้งแต่วันแรกที่เริ่มสนใจ ไปจนถึงวันที่ระบบพร้อมใช้ และต่อเนื่องหลังการติดตั้ง</p>
+    </div>
+    <div class="ab-steps">
+      <div class="ab-step">
+        <div class="ab-step-num">01</div>
+        <h3>รับฟังและวิเคราะห์</h3>
+        <p>ประเมินการใช้ไฟและความต้องการของลูกค้าก่อนทุกครั้ง ไม่ขายแพ็กเกจสำเร็จรูป</p>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-num">02</div>
+        <h3>ออกแบบระบบ</h3>
+        <p>วิศวกรออกแบบระบบที่เหมาะกับงบประมาณ พื้นที่ และเป้าหมายจริงของลูกค้า</p>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-num">03</div>
+        <h3>เสนอและยืนยัน</h3>
+        <p>นำเสนอแผน ชี้แจงอุปกรณ์ ราคา และระยะเวลาคืนทุน ลูกค้าตัดสินใจอย่างมีข้อมูล</p>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-num">04</div>
+        <h3>ติดตั้งมาตรฐาน</h3>
+        <p>ทีมช่างที่ผ่านการฝึกอบรม ดูแลทุกรายละเอียดตั้งแต่โครงสร้างถึงระบบไฟฟ้า</p>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-num">05</div>
+        <h3>บริการหลังการขาย</h3>
+        <p>ตรวจสอบระบบ ติดตามผล และพร้อมให้ความช่วยเหลือตลอดอายุการใช้งาน</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5. BRAND PARTNERS ═════════════════════════════════════ -->
+<section class="brands-sec">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="sec-label">พาร์ทเนอร์แบรนด์</span>
+      <div class="divider center"></div>
+      <h2 class="sec-title">อุปกรณ์จาก<span> แบรนด์ที่ไว้วางใจได้</span></h2>
+      <p class="sec-desc">เลือกใช้อุปกรณ์จากแบรนด์ชั้นนำระดับสากลที่ผ่านการรับรอง เพื่อให้มั่นใจในคุณภาพและความคุ้มค่าระยะยาว</p>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-item">
+        <img src="logo/transparent/deye.png" alt="Deye">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/huawei.png" alt="Huawei">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/atmoce.png" alt="ATMOCE">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/longi.png" alt="LONGi">
+      </div>
+      <div class="brand-item">
+        <img src="logo/sigenergy.png" alt="Sigenergy">
+      </div>
+      <div class="brand-item">
+        <img src="logo/TMDA.webp" alt="TMDA">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6. SAFETY & RELIABILITY ══════════════════════════════ -->
+<section style="padding: var(--section-pad);">
+  <div class="container">
+    <div class="ab-safety-grid">
+      <div>
+        <span class="sec-label">ความปลอดภัยและยั่งยืน</span>
+        <div class="divider"></div>
+        <h2 class="sec-title">ระบบที่ดีต้องปลอดภัย<span> และคุ้มค่า</span><br>ในระยะยาว</h2>
+        <p class="sec-desc">สำหรับเรา ระบบโซลาร์เซลล์ที่ดีต้องไม่ใช่แค่ผลิตไฟได้ แต่ต้องปลอดภัย ใช้งานได้มั่นใจ ดูแลรักษาง่าย และให้ผลลัพธ์ที่คุ้มค่าในระยะยาว</p>
+        <ul class="ab-safety-list">
+          <li>
+            <div class="ab-safety-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div>
+              <h4>งานเดินสายไฟมาตรฐาน</h4>
+              <p>เดินสายด้วยวัสดุที่ได้รับมาตรฐาน ป้องกันความร้อนและไฟรั่ว</p>
+            </div>
+          </li>
+          <li>
+            <div class="ab-safety-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+              </svg>
+            </div>
+            <div>
+              <h4>ตรวจสอบระบบหลังติดตั้ง</h4>
+              <p>ทีมงานตรวจสอบการทำงานของระบบครบทุกจุดก่อนส่งมอบ</p>
+            </div>
+          </li>
+          <li>
+            <div class="ab-safety-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div>
+              <h4>โครงสร้างติดตั้งแข็งแรง</h4>
+              <p>รับประกันโครงสร้างการติดตั้ง ทนทานต่อลมพายุและน้ำหนักแผง</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="ab-highlight-box">
+        <h3>งานโซลาร์เซลล์ที่ดี ไม่ได้จบแค่<span> วันที่ติดตั้งเสร็จ</span></h3>
+        <p>Need Solar พร้อมดูแลคุณตั้งแต่วันแรกที่เริ่มสนใจโซลาร์เซลล์ ไปจนถึงวันที่ระบบพร้อมใช้งาน และดูแลต่อเนื่องหลังการติดตั้ง เพราะเราต้องการให้ระบบสร้างคุณค่าให้คุณได้จริงในทุก ๆ วัน</p>
+        <div class="ab-warranty-badges">
+          <span class="ab-badge orange">รับประกันแผง 25 ปี</span>
+          <span class="ab-badge">อินเวอร์เตอร์ 10 ปี</span>
+          <span class="ab-badge">งานติดตั้ง 5 ปี</span>
+          <span class="ab-badge">After-sales Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7. CTA ═════════════════════════════════════════════════ -->
+<section class="cta-sec">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-title">พร้อมเริ่มต้นใช้พลังงานแสงอาทิตย์<br>กับ Need Solar แล้วหรือยัง?</h2>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn btn-dark">ติดต่อรับคำปรึกษาฟรี →</a>
+        <a href="calculator.html" class="btn btn-onlight">คำนวณโซลาร์</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="img/Asset 1.png" alt="NEED SOLAR" class="footer-logo">
+        <p class="footer-desc">ผู้เชี่ยวชาญด้านพลังงานแสงอาทิตย์ครบวงจร ออกแบบ ติดตั้ง และดูแลรักษาระบบโซลาร์เซลล์โดยทีมวิศวกรมืออาชีพ</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/needsolarcell" target="_blank" rel="noopener" class="social-btn">FB</a>
+          <a href="https://www.youtube.com/@NeedSolar" target="_blank" rel="noopener" class="social-btn">YT</a>
+          <a href="https://www.instagram.com/need_solar" target="_blank" rel="noopener" class="social-btn">IG</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">บริการ</div>
+        <ul class="f-links">
+          <li><a href="products.html">Solar บ้านพักอาศัย</a></li>
+          <li><a href="products.html">Solar ธุรกิจ / อาคาร</a></li>
+          <li><a href="products.html">Solar โรงงาน</a></li>
+          <li><a href="products.html">ระบบกักเก็บพลังงาน</a></li>
+          <li><a href="contact.html">บำรุงรักษา</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">เมนู</div>
+        <ul class="f-links">
+          <li><a href="index.html">หน้าหลัก</a></li>
+          <li><a href="products.html">แบรนด์ต่างๆ</a></li>
+          <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+          <li><a href="solar-planner.html">Solar Planner</a></li>
+          <li><a href="projects.html">ผลงาน</a></li>
+          <li><a href="about.html">เกี่ยวกับเรา</a></li>
+          <li><a href="contact.html">ติดต่อเรา</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">ติดต่อ</div>
+        <ul class="f-links">
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">โทรศัพท์</span>
+            <a href="tel:0824984554" style="color: var(--orange); font-weight: 700; font-size: 15px; text-decoration:none;">082-498-4554</a>
+          </li>
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">อีเมล</span>
+            <a href="mailto:needsolarcell@gmail.com" style="color: var(--text-sec); font-size: 13px; text-decoration:none;">needsolarcell@gmail.com</a>
+          </li>
+          <li style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="color: var(--text-muted); font-size: 11px;">ที่อยู่</span>
+            <span style="color: var(--text-sec); font-size: 12px; line-height: 1.5;">10/10 หมู่ 10 ต.บางพระ<br>อ.ศรีราชา จ.ชลบุรี 20110</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© 2024 NEED SOLAR Co., Ltd. All rights reserved.</p>
+      <ul class="f-bot-links">
+        <li><a href="privacy-policy.html">นโยบายความเป็นส่วนตัว</a></li>
+        <li><a href="cookie-policy.html">นโยบายคุกกี้</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" aria-label="Back to top">↑</button>
+<script src="js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+<script defer src="js/cookie-consent.js"></script>
+</body>
+</html>

@@ -1325,3 +1325,97 @@ select.form-control {
   .hero-stats    { gap: 24px; }
   .form-row-2    { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════
+   LIGHT MODE
+   ══════════════════════════════════════════════ */
+
+/* Toggle button */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color .2s, color .2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--orange); color: var(--orange); }
+.theme-toggle svg { width: 16px; height: 16px; pointer-events: none; }
+
+/* Variable overrides */
+[data-theme="light"] {
+  --bg-base:      #f5f4ef;
+  --bg-dark:      #eeede8;
+  --bg-card:      #ffffff;
+  --bg-card2:     #f0efe9;
+  --bg-section:   #e8e7e2;
+  --border:       #d0cec8;
+  --border-light: #bab8b2;
+  --text:         #1a1a18;
+  --text-sec:     #4a4845;
+  --text-muted:   #8a8880;
+}
+[data-theme="light"] body {
+  background: var(--bg-base);
+  color: var(--text);
+}
+
+/* Navbar */
+[data-theme="light"] .navbar {
+  background: rgba(245,244,239,0.95);
+}
+[data-theme="light"] .nav-dropdown-inner {
+  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+/* Hero overlays */
+[data-theme="light"] .hero-bg {
+  background:
+    linear-gradient(135deg, rgba(247,148,29,.07) 0%, transparent 55%),
+    linear-gradient(315deg, rgba(0,0,0,.02) 0%, transparent 55%);
+}
+[data-theme="light"] .hero-grid-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+[data-theme="light"] .hero-glow {
+  background: radial-gradient(circle, rgba(247,148,29,.10) 0%, transparent 70%);
+}
+
+/* Page hero grid */
+[data-theme="light"] .page-hero-grid {
+  background-image:
+    linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Brands section — always dark regardless of theme */
+[data-theme="light"] .brands-sec {
+  background: #181818 !important;
+}
+[data-theme="light"] .brands-sec .sec-title  { color: #F0F0F0 !important; }
+[data-theme="light"] .brands-sec .sec-title span { color: #F7941D !important; }
+[data-theme="light"] .brands-sec .sec-label  { color: #F7941D !important; }
+[data-theme="light"] .brands-sec .sec-desc   { color: #A0A0A0 !important; }
+[data-theme="light"] .brands-sec .divider    { background: #F7941D !important; }
+
+/* Buttons */
+[data-theme="light"] .btn-dark  { background: #1a1a18; }
+[data-theme="light"] .btn-ghost { color: var(--text); border-color: var(--border); }
+
+/* Project card overlay — always white text (overlay sits on dark image) */
+[data-theme="light"] .proj-name   { color: #ffffff !important; }
+[data-theme="light"] .proj-detail { color: rgba(255,255,255,.75) !important; }
+
+/* Hover states */
+[data-theme="light"] .why-feat:hover    { background: rgba(247,148,29,.06); }
+[data-theme="light"] .proj-card:hover .proj-img { background: #d8d7d2; }

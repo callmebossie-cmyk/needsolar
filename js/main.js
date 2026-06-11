@@ -1,5 +1,11 @@
 // NEED SOLAR — main.js
 
+// Restore saved theme before first paint
+(function(){
+  const t = localStorage.getItem('ns-theme');
+  if (t) document.documentElement.setAttribute('data-theme', t);
+})();
+
 // Navbar scroll effect
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
@@ -145,6 +151,36 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 
 renderProjGrid();
 
+// Live Facebook feed — pulls posts tagged #A into projects gallery
+(async function loadFBPosts() {
+  if (!document.getElementById('projGrid')) return;
+  try {
+    const PAGE   = 'needsolarcell';
+    const TOKEN  = 'EAAX8ZCZCLpw38BRtwBQ0IMSJ7AbAcOQLDUUgIShdOWecHcIDbfYRxfxQlzk1ACEUX2da9WmkEaVodNIH7qeSzNwRZABzLyM2ZAgNDZBIIUuyDKq3b1SZB0nqH2Tp4VZBAsZBfJ8PGihrG2pm8jPLCGZBGRSQoAtIdtOYdnt1D0ZAi0f5A7AZBLXibNjKXhwRHYuSxQxLkqcCB4ZD';
+    const FIELDS = 'id,message,full_picture,permalink_url,attachments{media_type}';
+    const res  = await fetch(
+      `https://graph.facebook.com/v19.0/${PAGE}/posts?fields=${FIELDS}&limit=100&access_token=${TOKEN}`
+    );
+    const json = await res.json();
+    if (json.error || !json.data?.length) return;
+
+    const mapped = json.data
+      .filter(p => p.full_picture && p.message && /#A\b/i.test(p.message))
+      .map(p => ({
+        type: p.attachments?.data?.[0]?.media_type === 'video' ? 'video' : 'photo',
+        url:  p.permalink_url,
+        name: p.message.replace(/#\S+/g, '').trim().split('\n')[0].trim().slice(0, 55) || 'โครงการ Need Solar',
+        img:  p.full_picture
+      }));
+
+    if (!mapped.length) return;
+    PROJ_DATA.length = 0;
+    mapped.forEach(p => PROJ_DATA.push(p));
+    projPage = 1;
+    renderProjGrid();
+  } catch (_) { /* fall back to static data silently */ }
+})();
+
 // Counter animation
 function countUp(el, target, dur = 1400) {
   const suffix = el.dataset.suffix || '';
@@ -211,3 +247,28 @@ if (calcForm) {
     }
   });
 }
+
+// Theme toggle button
+(function() {
+  const SUN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+  const btn = document.createElement('button');
+  btn.className = 'theme-toggle';
+  btn.setAttribute('aria-label', 'สลับโหมดสี');
+
+  const getTheme = () => document.documentElement.getAttribute('data-theme') || 'dark';
+  const sync = () => { btn.innerHTML = getTheme() === 'light' ? MOON : SUN; };
+  sync();
+
+  btn.addEventListener('click', () => {
+    const next = getTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ns-theme', next);
+    sync();
+  });
+
+  const navInner = document.querySelector('.nav-inner');
+  const toggle   = document.querySelector('.nav-toggle');
+  if (navInner) navInner.insertBefore(btn, toggle || null);
+})();
