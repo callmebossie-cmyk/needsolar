@@ -1141,6 +1141,7 @@ select.form-control {
     linear-gradient(rgba(247,148,29,.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(247,148,29,.02) 1px, transparent 1px);
   background-size: 28px 28px;
+  pointer-events: none;
 }
 .contact-map-wrap .map-icon { font-size: 36px; opacity: .4; }
 
