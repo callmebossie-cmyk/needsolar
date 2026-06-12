@@ -221,7 +221,7 @@
             ติดต่อผ่าน LINE OA
             <span>ตอบกลับเร็วที่สุด เพิ่มเพื่อนได้เลย</span>
           </div>
-          <a href="#" class="btn-line">เพิ่มเพื่อน LINE</a>
+          <button type="button" class="btn-line" id="lineModalBtn">เพิ่มเพื่อน LINE</button>
         </div>
 
         <!-- Quick info -->
@@ -421,6 +421,39 @@
       btn.textContent = 'ส่งข้อความ →';
     }
   });
+</script>
+
+<!-- LINE Modal -->
+<div id="lineModal" class="lm-backdrop">
+  <div class="lm-box">
+    <button class="lm-close" id="lineModalClose">×</button>
+    <div class="lm-header">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#06C755"/><path d="M26 14.7C26 10.4 21.5 7 16 7S6 10.4 6 14.7c0 3.8 3.4 7 8 7.8.3.07.7.2.8.47.09.24.06.6.03.84l-.13.77c-.04.24-.18.93.82.51 1-.43 5.4-3.2 7.37-5.47A6.86 6.86 0 0026 14.7z" fill="#fff"/></svg>
+      <span>เพิ่มเพื่อน LINE OA</span>
+    </div>
+    <p class="lm-id">LINE ID : <strong>@needsolar</strong></p>
+    <img src="img/S__9240616.jpg" alt="QR Code LINE @needsolar" class="lm-qr">
+  </div>
+</div>
+<style>
+.lm-backdrop { display:flex; visibility:hidden; pointer-events:none; position:fixed; inset:0; background:rgba(0,0,0,0); z-index:9999; align-items:center; justify-content:center; transition:background .3s, visibility 0s .3s; }
+.lm-backdrop.show { visibility:visible; pointer-events:auto; background:rgba(0,0,0,.6); transition:background .3s, visibility 0s 0s; }
+.lm-box { background:#fff; border-radius:16px; padding:32px 28px; max-width:340px; width:90%; text-align:center; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.3); opacity:0; transform:scale(.88) translateY(20px); transition:opacity .35s ease, transform .35s cubic-bezier(.34,1.3,.64,1); }
+.lm-backdrop.show .lm-box { opacity:1; transform:scale(1) translateY(0); }
+.lm-close { position:absolute; top:12px; right:14px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; line-height:1; }
+.lm-close:hover { color:#333; }
+.lm-header { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; }
+.lm-header span { font-size:17px; font-weight:700; color:#06C755; }
+.lm-id { font-size:16px; color:#555; margin-bottom:16px; display:flex; align-items:center; justify-content:center; gap:8px; }
+.lm-id strong { color:#06C755; font-size:16px; }
+.lm-qr { width:200px; height:200px; object-fit:contain; border:1px solid #eee; border-radius:8px; margin-bottom:20px; }
+.lm-btn { display:inline-block; background:#06C755; color:#fff; font-weight:700; padding:12px 32px; border-radius:8px; text-decoration:none; font-size:15px; transition:background .2s; }
+.lm-btn:hover { background:#05b04a; }
+</style>
+<script>
+document.getElementById('lineModalBtn').addEventListener('click', () => document.getElementById('lineModal').classList.add('show'));
+document.getElementById('lineModalClose').addEventListener('click', () => document.getElementById('lineModal').classList.remove('show'));
+document.getElementById('lineModal').addEventListener('click', e => { if(e.target === e.currentTarget) e.currentTarget.classList.remove('show'); });
 </script>
 </body>
 </html>
