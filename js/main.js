@@ -165,7 +165,7 @@ renderProjGrid();
     if (json.error || !json.data?.length) return;
 
     const mapped = json.data
-      .filter(p => p.full_picture && p.message && /#A\b/i.test(p.message))
+      .filter(p => p.full_picture && p.message && (/#ติดตั้งจริง/i.test(p.message) || /#ล้างแผงโซล่าเซลล์/i.test(p.message)))
       .map(p => ({
         type: p.attachments?.data?.[0]?.media_type === 'video' ? 'video' : 'photo',
         url:  p.permalink_url,
