@@ -149,7 +149,17 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-renderProjGrid();
+// Show loading state — replaced by FB data or static fallback
+(function(){
+  const grid = document.getElementById('projGrid');
+  if (!grid) return;
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted);font-size:14px;">กำลังโหลดผลงาน…</div>';
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.dataset.filter === 'all')   btn.textContent = 'ทั้งหมด';
+    if (btn.dataset.filter === 'photo') btn.textContent = 'รูปภาพ';
+    if (btn.dataset.filter === 'video') btn.textContent = 'วิดีโอ';
+  });
+})();
 
 // Live Facebook feed — pulls posts tagged #A into projects gallery
 (async function loadFBPosts() {
@@ -157,7 +167,7 @@ renderProjGrid();
   try {
     const PAGE   = 'needsolarcell';
     const TOKEN  = 'EAAX8ZCZCLpw38BRtwBQ0IMSJ7AbAcOQLDUUgIShdOWecHcIDbfYRxfxQlzk1ACEUX2da9WmkEaVodNIH7qeSzNwRZABzLyM2ZAgNDZBIIUuyDKq3b1SZB0nqH2Tp4VZBAsZBfJ8PGihrG2pm8jPLCGZBGRSQoAtIdtOYdnt1D0ZAi0f5A7AZBLXibNjKXhwRHYuSxQxLkqcCB4ZD';
-    const FIELDS = 'id,message,full_picture,permalink_url,attachments{media_type}';
+    const FIELDS = 'id,message,full_picture,permalink_url,attachments{media_type,media{image{src}}}';
     const res  = await fetch(
       `https://graph.facebook.com/v19.0/${PAGE}/posts?fields=${FIELDS}&limit=100&access_token=${TOKEN}`
     );
@@ -165,20 +175,36 @@ renderProjGrid();
     if (json.error || !json.data?.length) return;
 
     const mapped = json.data
-      .filter(p => p.full_picture && p.message && (/#ติดตั้งจริง/i.test(p.message) || /#ล้างแผงโซล่าเซลล์/i.test(p.message)))
-      .map(p => ({
-        type: p.attachments?.data?.[0]?.media_type === 'video' ? 'video' : 'photo',
-        url:  p.permalink_url,
-        name: p.message.replace(/#\S+/g, '').trim().split('\n')[0].trim().slice(0, 55) || 'โครงการ Need Solar',
-        img:  p.full_picture
-      }));
+      .filter(p => p.message && (/#ติดตั้งจริง/i.test(p.message) || /#ล้างแผงโซล่าเซลล์/i.test(p.message)))
+      .map(p => {
+        const isVideo = p.attachments?.data?.[0]?.media_type === 'video';
+        const img = p.full_picture
+          || p.attachments?.data?.[0]?.media?.image?.src
+          || null;
+        if (!img) return null;
+        return {
+          type: isVideo ? 'video' : 'photo',
+          url:  p.permalink_url,
+          name: p.message.replace(/#\S+/g, '').trim().split('\n')[0].trim().slice(0, 55) || 'โครงการ Need Solar',
+          img
+        };
+      }).filter(Boolean);
 
     if (!mapped.length) return;
     PROJ_DATA.length = 0;
     mapped.forEach(p => PROJ_DATA.push(p));
     projPage = 1;
     renderProjGrid();
-  } catch (_) { /* fall back to static data silently */ }
+    // Update filter button labels to match actual FB data counts
+    const _total  = PROJ_DATA.length;
+    const _photos = PROJ_DATA.filter(d => d.type === 'photo').length;
+    const _videos = PROJ_DATA.filter(d => d.type === 'video').length;
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      if (btn.dataset.filter === 'all')   btn.textContent = `ทั้งหมด (${_total})`;
+      if (btn.dataset.filter === 'photo') btn.textContent = `รูปภาพ (${_photos})`;
+      if (btn.dataset.filter === 'video') btn.textContent = `วิดีโอ (${_videos})`;
+    });
+  } catch (_) { renderProjGrid(); /* FB failed — fall back to static data */ }
 })();
 
 // Counter animation
