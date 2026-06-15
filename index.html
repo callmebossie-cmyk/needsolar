@@ -119,7 +119,7 @@
 
 </section>
 <style>
-.hs { position:relative; height:100vh; min-height:580px; overflow:hidden; }
+.hs { position:relative; aspect-ratio:16/9; overflow:hidden; }
 .hs-slide { position:absolute; inset:0; opacity:0; transition:opacity .9s ease; z-index:0; }
 .hs-slide.active { opacity:1; z-index:1; }
 .hs-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center right; }
@@ -143,6 +143,7 @@
 .hs-stat:last-child { border-right:none; }
 .h-stat-val { font-size:clamp(1.4rem,2.5vw,1.8rem); font-weight:800; color:var(--orange); }
 .h-stat-lbl { font-size:11px; color:rgba(255,255,255,.6); margin-top:2px; }
+@media(max-width:1024px){ .hs { display:none; } }
 @media(max-width:640px){
   .hs-body { padding:0 20px; }
   .hs-stats { gap:0; }
