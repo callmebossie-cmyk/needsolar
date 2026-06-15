@@ -344,6 +344,26 @@
     #award-lightbox-close:hover { opacity: 1 !important; }
     .award-card { cursor: pointer; transition: transform .2s ease; }
     .award-card:hover { transform: translateY(-4px); }
+    .about-hero-img-wrap {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 55%;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .about-hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+    }
+    .about-hero-img-fade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--bg-dark) 0%, rgba(17,17,17,.82) 30%, transparent 70%);
+    }
+    @media (max-width: 768px) {
+      .about-hero-img-wrap { width: 100%; opacity: .25; }
+    }
   </style>
 </head>
 <body>
@@ -369,6 +389,10 @@
 <!-- ═══ 1. HERO ══════════════════════════════════════════════ -->
 <section class="page-hero">
   <div class="page-hero-grid"></div>
+  <div class="about-hero-img-wrap">
+    <img src="img worker/DSC02884.jpg" alt="รางวัลการันตีคุณภาพ Need Solar" class="about-hero-img">
+    <div class="about-hero-img-fade"></div>
+  </div>
   <div class="container">
     <div class="page-hero-content">
       <div class="breadcrumb">
@@ -523,39 +547,7 @@
   </div>
 </section>
 
-<!-- ═══ 5. BRAND PARTNERS ═════════════════════════════════════ -->
-<section class="brands-sec">
-  <div class="container">
-    <div class="sec-head center">
-      <span class="sec-label">พาร์ทเนอร์แบรนด์</span>
-      <div class="divider center"></div>
-      <h2 class="sec-title">อุปกรณ์จาก<span> แบรนด์ที่ไว้วางใจได้</span></h2>
-      <p class="sec-desc">เลือกใช้อุปกรณ์จากแบรนด์ชั้นนำระดับสากลที่ผ่านการรับรอง เพื่อให้มั่นใจในคุณภาพและความคุ้มค่าระยะยาว</p>
-    </div>
-    <div class="brands-grid">
-      <div class="brand-item">
-        <img src="logo/transparent/deye.png" alt="Deye">
-      </div>
-      <div class="brand-item">
-        <img src="logo/transparent/huawei.png" alt="Huawei">
-      </div>
-      <div class="brand-item">
-        <img src="logo/transparent/atmoce.png" alt="ATMOCE">
-      </div>
-      <div class="brand-item">
-        <img src="logo/transparent/longi.png" alt="LONGi">
-      </div>
-      <div class="brand-item">
-        <img src="logo/sigenergy.png" alt="Sigenergy">
-      </div>
-      <div class="brand-item">
-        <img src="logo/TMDA.webp" alt="TMDA">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 6. AWARDS & CERTIFICATIONS ════════════════════════════ -->
+<!-- ═══ 5. AWARDS & CERTIFICATIONS ════════════════════════════ -->
 <section style="padding: var(--section-pad); background: var(--bg-section);">
   <div class="container">
     <div class="sec-head center" style="margin-bottom:48px;">
@@ -587,6 +579,38 @@
       <div class="award-card">
         <img src="รับรางวัล/DSC02878.png" alt="Huawei Fusionsolar Certified Installer">
         <div class="award-caption">Huawei Fusionsolar<br><strong>Certified Installer</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6. BRAND PARTNERS ═════════════════════════════════════ -->
+<section class="brands-sec">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="sec-label">พาร์ทเนอร์แบรนด์</span>
+      <div class="divider center"></div>
+      <h2 class="sec-title">อุปกรณ์จาก<span> แบรนด์ที่ไว้วางใจได้</span></h2>
+      <p class="sec-desc">เลือกใช้อุปกรณ์จากแบรนด์ชั้นนำระดับสากลที่ผ่านการรับรอง เพื่อให้มั่นใจในคุณภาพและความคุ้มค่าระยะยาว</p>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-item">
+        <img src="logo/transparent/deye.png" alt="Deye">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/huawei.png" alt="Huawei">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/atmoce.png" alt="ATMOCE">
+      </div>
+      <div class="brand-item">
+        <img src="logo/transparent/longi.png" alt="LONGi">
+      </div>
+      <div class="brand-item">
+        <img src="logo/sigenergy.png" alt="Sigenergy">
+      </div>
+      <div class="brand-item">
+        <img src="logo/TMDA.webp" alt="TMDA">
       </div>
     </div>
   </div>
@@ -674,6 +698,7 @@
           <a href="https://www.facebook.com/needsolarcell" target="_blank" rel="noopener" class="social-btn">FB</a>
           <a href="https://www.youtube.com/@NeedSolar" target="_blank" rel="noopener" class="social-btn">YT</a>
           <a href="https://www.instagram.com/need_solar" target="_blank" rel="noopener" class="social-btn">IG</a>
+          <a href="https://www.tiktok.com/@needsolarcell" target="_blank" rel="noopener" class="social-btn">TT</a>
         </div>
       </div>
       <div>

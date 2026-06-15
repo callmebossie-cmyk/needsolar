@@ -30,7 +30,7 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 
 body {
   background: var(--bg-base);
@@ -69,7 +69,7 @@ body {
   margin: 0 auto;
   padding: 0 28px;
 }
-.nav-logo img { height: 52px; width: auto; object-fit: contain; }
+.nav-logo img { height: 40px; width: auto; object-fit: contain; }
 
 .nav-links {
   display: flex;
