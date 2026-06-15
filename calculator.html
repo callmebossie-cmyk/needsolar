@@ -70,6 +70,7 @@
       margin-bottom: 10px;
     }
     .pkg-brand { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; }
+    .pkg-brand-logo { height: 22px; width: auto; max-width: 72px; object-fit: contain; opacity: 0.9; vertical-align: middle; margin-left: 8px; display: inline; }
     .pkg-row {
       display: flex;
       justify-content: space-between;
@@ -502,6 +503,14 @@
       '<strong style="color:var(--orange)">💡 คำแนะนำ:</strong> ' + recMap[usagePattern];
 
     // Build package cards — cheapest of each brand
+    const logoMap = {
+      'TMDA':               'logo/TMDA.webp',
+      'Huawei':             'logo/transparent/huawei.png',
+      'Sigenergy':          'logo/sigenergy.png',
+      'Sigenergy (Tower)':  'logo/sigenergy.png',
+      'Deye':               'logo/transparent/deye.png',
+      'ATOMOS':             'logo/transparent/atmoce in cal.jpg',
+    };
     const grid = document.getElementById('packagesGrid');
     grid.innerHTML = '';
     if (suitable.length === 0) {
@@ -510,11 +519,13 @@
       const brands = [...new Set(suitable.map(p => p.Band))];
       brands.map(brand => suitable.find(p => p.Band === brand)).forEach((pkg, i) => {
         const payback = monthlySavings > 0 ? (pkg.price / (monthlySavings * 12)).toFixed(1) : '—';
+        const logoSrc = logoMap[pkg.Band] || '';
+        const logoHtml = logoSrc ? `<img src="${logoSrc}" alt="${pkg.Band}" class="pkg-brand-logo">` : '';
         const card = document.createElement('div');
         card.className = 'pkg-card' + (i === 0 ? ' recommended' : '');
         card.innerHTML = `
           ${i === 0 ? '<div class="pkg-badge">⭐ แนะนำ</div>' : ''}
-          <div class="pkg-brand">${pkg.Band}</div>
+          <div class="pkg-brand"><span>${pkg.Band}</span>${logoHtml}</div>
           <div class="pkg-row"><span>ขนาด Inverter</span><strong>${pkg.Inverter} kW</strong></div>
           <div class="pkg-row"><span>จำนวนแผง</span><strong>${pkg.Panel} แผง</strong></div>
           <div class="pkg-row"><span>จำนวนเฟส</span><strong>${pkg.Phase} เฟส</strong></div>

@@ -272,6 +272,78 @@
     @media (max-width: 380px) {
       .ab-why-grid { grid-template-columns: 1fr; }
     }
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .award-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 16px;
+      gap: 12px;
+    }
+    .award-card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+    }
+    .award-caption {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .award-caption strong { color: var(--text); display: block; margin-top: 2px; }
+    @media (max-width: 768px) {
+      .awards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .awards-grid { grid-template-columns: 1fr; }
+    }
+    /* Lightbox */
+    #award-lightbox {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease, background .35s ease;
+    }
+    #award-lightbox.open {
+      opacity: 1; pointer-events: all;
+      background: rgba(0,0,0,.85);
+    }
+    #award-lightbox-content {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      will-change: transform;
+    }
+    #award-lightbox img {
+      max-width: 96vw; max-height: 80vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+    }
+    #award-lightbox-caption {
+      color: rgba(255,255,255,.92);
+      font-size: 19px; text-align: center; line-height: 1.6;
+      max-width: 640px; padding: 0 16px;
+    }
+    #award-lightbox-caption strong { color: #fff; }
+    #award-lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      color: #fff; font-size: 36px; cursor: pointer;
+      line-height: 1; background: none; border: none;
+      opacity: 0; transition: opacity .35s ease .1s;
+    }
+    #award-lightbox.open #award-lightbox-close { opacity: .7; }
+    #award-lightbox-close:hover { opacity: 1 !important; }
+    .award-card { cursor: pointer; transition: transform .2s ease; }
+    .award-card:hover { transform: translateY(-4px); }
   </style>
 </head>
 <body>
@@ -483,7 +555,44 @@
   </div>
 </section>
 
-<!-- ═══ 6. SAFETY & RELIABILITY ══════════════════════════════ -->
+<!-- ═══ 6. AWARDS & CERTIFICATIONS ════════════════════════════ -->
+<section style="padding: var(--section-pad); background: var(--bg-section);">
+  <div class="container">
+    <div class="sec-head center" style="margin-bottom:48px;">
+      <span class="sec-label">การรับรองและรางวัล</span>
+      <div class="divider center"></div>
+      <h2 class="sec-title">รางวัลและ<span> ใบรับรอง</span>ที่ได้รับ</h2>
+    </div>
+    <div class="awards-grid">
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02881.png" alt="Huawei FusionSolar Preferred Member">
+        <div class="award-caption">Huawei FusionSolar<br><strong>Preferred Member</strong></div>
+      </div>
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02873-2.png" alt="LONGi Digital Marketing of the Year">
+        <div class="award-caption">LONGi Hi-MO X10<br><strong>Digital Marketing of the Year</strong></div>
+      </div>
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02879.png" alt="LONGi Best Performance Award 2024">
+        <div class="award-caption">SJS × LONGi<br><strong>Best Performance Award 2024</strong></div>
+      </div>
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02880.png" alt="Huawei Best Residential Performance Award 2024">
+        <div class="award-caption">SJS × Huawei<br><strong>Best Residential Performance Award 2024</strong></div>
+      </div>
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02877.png" alt="Huawei FusionSolar Professional Installer Engineer">
+        <div class="award-caption">Huawei FusionSolar<br><strong>Professional Installer Engineer</strong></div>
+      </div>
+      <div class="award-card">
+        <img src="รับรางวัล/DSC02878.png" alt="Huawei Fusionsolar Certified Installer">
+        <div class="award-caption">Huawei Fusionsolar<br><strong>Certified Installer</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7. SAFETY & RELIABILITY ══════════════════════════════ -->
 <section style="padding: var(--section-pad);">
   <div class="container">
     <div class="ab-safety-grid">
@@ -617,6 +726,82 @@
 </footer>
 
 <button class="btt" aria-label="Back to top">↑</button>
+
+<!-- Award Lightbox -->
+<div id="award-lightbox" role="dialog" aria-modal="true">
+  <button id="award-lightbox-close" aria-label="ปิด">✕</button>
+  <div id="award-lightbox-content">
+    <img id="award-lightbox-img" src="" alt="">
+    <p id="award-lightbox-caption"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var lb      = document.getElementById('award-lightbox');
+  var img     = document.getElementById('award-lightbox-img');
+  var content = document.getElementById('award-lightbox-content');
+  var cap     = document.getElementById('award-lightbox-caption');
+  var cls     = document.getElementById('award-lightbox-close');
+  var closing = false;
+  var savedDx = 0, savedDy = 0, savedSc = 1;
+
+  function calcTransform(rect) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var shiftUp = vh * 0.08;
+    var dx = (rect.left + rect.width  / 2) - vw / 2;
+    var dy = (rect.top  + rect.height / 2) - vh / 2;
+    var sc = rect.width / Math.min(vw * 0.94, vh * 0.80);
+    return { dx: dx, dy: dy, sc: sc, shiftUp: shiftUp };
+  }
+
+  function open(card) {
+    var cardImg = card.querySelector('img');
+    var rect = cardImg.getBoundingClientRect();
+    var t = calcTransform(rect);
+    savedDx = t.dx; savedDy = t.dy; savedSc = t.sc;
+
+    img.src = cardImg.src; img.alt = cardImg.alt;
+    cap.innerHTML = card.querySelector('.award-caption').innerHTML;
+
+    content.style.transition = 'none';
+    content.style.transform  = 'translate(' + t.dx + 'px,' + t.dy + 'px) scale(' + t.sc + ')';
+
+    lb.classList.add('open');
+    content.getBoundingClientRect(); // reflow
+
+    content.style.transition = 'transform .48s cubic-bezier(.22,.68,0,1.15)';
+    content.style.transform  = 'translate(0,' + (-t.shiftUp) + 'px) scale(1)';
+    document.body.style.overflow = 'hidden';
+    closing = false;
+  }
+
+  function close() {
+    if (closing) return;
+    closing = true;
+
+    content.style.transition = 'transform .4s cubic-bezier(.4,0,.6,1)';
+    content.style.transform  = 'translate(' + savedDx + 'px,' + savedDy + 'px) scale(' + savedSc + ')';
+    lb.classList.remove('open');
+
+    setTimeout(function(){
+      content.style.transform  = '';
+      content.style.transition = '';
+      document.body.style.overflow = '';
+      closing = false;
+    }, 410);
+  }
+
+  document.querySelectorAll('.award-card').forEach(function(card){
+    card.addEventListener('click', function(){ open(card); });
+  });
+
+  cls.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+  lb.addEventListener('click',  function(e){ if (e.target === lb) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+})();
+</script>
+
 <script src="js/main.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
 <script defer src="js/cookie-consent.js"></script>

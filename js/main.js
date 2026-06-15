@@ -272,3 +272,15 @@ if (calcForm) {
   const toggle   = document.querySelector('.nav-toggle');
   if (navInner) navInner.insertBefore(btn, toggle || null);
 })();
+
+// About section image slideshow
+(function(){
+  const slides = document.querySelectorAll('.about-slide');
+  if (slides.length < 2) return;
+  let cur = 0;
+  setInterval(function(){
+    slides[cur].classList.remove('active');
+    cur = (cur + 1) % slides.length;
+    slides[cur].classList.add('active');
+  }, 4000);
+})();
