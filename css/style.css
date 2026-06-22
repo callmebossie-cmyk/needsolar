@@ -527,7 +527,8 @@ body {
 .brands-grid .brand-item:nth-child(2) img { transform: scale(1.1); }
 .brands-grid .brand-item:nth-child(3) img { transform: scale(2.5); mix-blend-mode: normal; filter: invert(1); }
 .brands-grid .brand-item:nth-child(4) img { transform: scale(1.15); }
-.brands-grid .brand-item:nth-child(5) img { transform: scale(0.95); }
+.brands-grid .brand-item:nth-child(5) img { transform: scale(2.2); }
+.brands-grid .brand-item:nth-child(6) img { transform: scale(1.5); }
 
 /* ── SERVICES ───────────────────────────────── */
 .services-sec {
