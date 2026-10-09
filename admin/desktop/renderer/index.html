@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Need Solar Studio</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body class="empty">
+  <section id="launcher" class="launcher">
+    <div class="launcher-card">
+      <div class="logo">NS</div>
+      <h1>Need Solar Studio</h1>
+      <p>เลือกโฟลเดอร์โปรเจกต์เว็บเพื่อเริ่มแก้ไข</p>
+      <button id="browseBtn">Browse Project Folder</button>
+      <div class="path-open">
+        <input id="projectPathInput" type="text" placeholder="หรือวาง path เช่น C:\Users\suck capcut\needsolar">
+        <button id="openPathBtn">Open</button>
+      </div>
+      <div class="recent-block">
+        <div class="recent-head">
+          <strong>Recent Projects</strong>
+          <button id="clearRecentBtn">Clear</button>
+        </div>
+        <div id="recentProjects" class="recent-list"></div>
+      </div>
+      <span id="launchStatus"></span>
+    </div>
+  </section>
+
+  <section id="studio" class="studio" hidden>
+    <header class="topbar">
+      <div>
+        <strong>Need Solar Studio</strong>
+        <span id="projectPath"></span>
+      </div>
+      <button id="changeProjectBtn">เปลี่ยนโปรเจกต์</button>
+    </header>
+
+    <div class="dock">
+      <aside class="pane tools-pane" data-pane="tools">
+        <div class="pane-head">
+          <strong>Tools</strong>
+        </div>
+        <button class="tool active" data-src="admin">Content Editor</button>
+        <button class="tool" data-src="preview">Live Preview</button>
+      </aside>
+
+      <div class="splitter" data-split="left"></div>
+
+      <main class="pane canvas-pane">
+        <div class="pane-head">
+          <strong>Canvas</strong>
+          <div>
+            <button id="reloadPreview">Reload</button>
+            <button id="resetLayout">Reset Layout</button>
+            <button id="floatPreview">Float</button>
+          </div>
+        </div>
+        <iframe id="previewFrame"></iframe>
+      </main>
+
+      <div class="splitter" data-split="right"></div>
+
+      <aside class="pane inspector-pane">
+        <div class="pane-head">
+          <strong>Inspector</strong>
+          <button id="floatInspector">Float</button>
+        </div>
+        <iframe id="adminFrame"></iframe>
+      </aside>
+    </div>
+  </section>
+
+  <script src="studio.js"></script>
+</body>
+</html>

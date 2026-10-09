@@ -1,0 +1,237 @@
+:root {
+  --bg: #101114;
+  --panel: #181a20;
+  --panel-2: #20232b;
+  --line: #30343d;
+  --text: #f2f3f5;
+  --muted: #a7adb8;
+  --orange: #f7941d;
+  --radius: 8px;
+  font-family: Prompt, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+}
+
+button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 9px 13px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover { border-color: var(--orange); }
+
+.launcher {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+.launcher-card {
+  width: min(520px, 100%);
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  text-align: center;
+}
+
+.logo {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: var(--radius);
+  background: var(--orange);
+  color: #111;
+  font-weight: 900;
+  font-size: 20px;
+}
+
+h1 { margin: 0 0 8px; font-size: 26px; }
+p { margin: 0 0 22px; color: var(--muted); }
+#launchStatus { display: block; min-height: 20px; margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+.path-open {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.path-open input {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #111319;
+  color: var(--text);
+  padding: 9px 11px;
+  font: inherit;
+}
+
+.path-open input:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.recent-block {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  text-align: left;
+}
+
+.recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.recent-head button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.recent-list {
+  display: grid;
+  gap: 7px;
+}
+
+.recent-item {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  gap: 2px;
+  padding: 9px 10px;
+}
+
+.recent-item strong {
+  font-size: 13px;
+}
+
+.recent-item span {
+  color: var(--muted);
+  font-size: 11px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.recent-empty {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 8px 0;
+}
+
+.studio {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 54px 1fr;
+}
+
+.topbar, .pane-head, .float-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  background: #0d0e11;
+}
+
+.topbar { padding: 0 14px; }
+.topbar span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  max-width: 72vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 220px 6px minmax(420px, 1fr) 6px 440px;
+  background: var(--bg);
+}
+
+.pane {
+  min-width: 0;
+  min-height: 0;
+  background: var(--panel);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-head {
+  min-height: 44px;
+  padding: 0 10px;
+}
+
+.pane-head div {
+  display: flex;
+  gap: 8px;
+}
+
+.tools-pane {
+  padding-bottom: 10px;
+}
+
+.tool {
+  margin: 10px 10px 0;
+  text-align: left;
+}
+
+.tool.active {
+  border-color: var(--orange);
+  color: #111;
+  background: var(--orange);
+  font-weight: 800;
+}
+
+.splitter {
+  background: #0b0c0f;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  cursor: col-resize;
+}
+
+.splitter:hover, .splitter.dragging {
+  background: var(--orange);
+}
+
+iframe {
+  width: 100%;
+  flex: 1;
+  border: 0;
+  background: white;
+}
+
+.floating {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.float-head {
+  min-height: 46px;
+  padding: 0 10px;
+}

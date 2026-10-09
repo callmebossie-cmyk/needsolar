@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Need Solar Admin</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">NS</div>
+      <div>
+        <strong>Need Solar Admin</strong>
+        <span>Local content editor</span>
+      </div>
+    </div>
+    <nav id="groups"></nav>
+    <div class="side-foot">
+      <button id="saveBtn" class="primary">บันทึกทั้งหมด</button>
+      <button id="reloadBtn">โหลดใหม่</button>
+      <p id="status">พร้อมใช้งาน</p>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <div>
+        <h1>ตัวแก้ไขเว็บ</h1>
+        <p id="rootPath"></p>
+      </div>
+      <a class="preview-link" href="/preview/index.html" target="_blank">เปิดเว็บจริง</a>
+    </header>
+
+    <section class="workspace">
+      <div id="editor" class="editor"></div>
+      <section class="preview-panel">
+        <div class="preview-head">
+          <strong>Preview</strong>
+          <select id="previewPage">
+            <option value="/preview/index.html">หน้าแรก</option>
+            <option value="/preview/about.html">เกี่ยวกับเรา</option>
+          </select>
+        </div>
+        <iframe id="preview" src="/preview/index.html"></iframe>
+      </section>
+    </section>
+  </main>
+
+  <template id="imageEditorTemplate">
+    <div class="image-editor">
+      <div class="image-frame">
+        <img alt="">
+        <div class="crosshair"></div>
+      </div>
+      <div class="range-row">
+        <label>X <input type="range" min="0" max="100" step="1" data-axis="x"></label>
+        <label>Y <input type="range" min="0" max="100" step="1" data-axis="y"></label>
+      </div>
+    </div>
+  </template>
+
+  <script src="/admin/app.js"></script>
+</body>
+</html>

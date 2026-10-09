@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body class="floating">
+  <header class="float-head">
+    <strong id="title">Panel</strong>
+    <button id="reload">Reload</button>
+  </header>
+  <iframe id="frame"></iframe>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const frame = document.getElementById('frame');
+    document.getElementById('title').textContent = params.get('title') || 'Panel';
+    frame.src = params.get('src') || 'about:blank';
+    document.getElementById('reload').addEventListener('click', () => {
+      frame.src = frame.src.split('?')[0] + '?t=' + Date.now();
+    });
+  </script>
+</body>
+</html>
