@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/png" href="assets/images/site/favicon.png">
+  <title>ส่งข้อความสำเร็จ — NEED SOLAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="stylesheet" href="css/cc-theme.css">
+  <style>
+    .thank-you-section {
+      min-height: calc(100vh - 68px);
+      padding: 148px 0 88px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(247,148,29,.12), transparent 38%),
+        var(--bg-base);
+    }
+    .thank-you-card {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(32px, 6vw, 64px);
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-top: 3px solid var(--orange);
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(0,0,0,.2);
+    }
+    .thank-you-icon {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--orange);
+      background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+    }
+    .thank-you-label {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .thank-you-title {
+      color: var(--text);
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .thank-you-title span { color: var(--orange); }
+    .thank-you-desc {
+      color: var(--text-sec);
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .thank-you-next {
+      margin: 36px auto;
+      padding: 20px 24px;
+      max-width: 540px;
+      color: var(--text-sec);
+      background: var(--bg-card2);
+      border: 1px solid var(--border-light);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+    .thank-you-next strong { display: block; color: var(--text); margin-bottom: 3px; }
+    .thank-you-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    .thank-you-help {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 28px;
+    }
+    .thank-you-help a { color: var(--orange); text-decoration: none; }
+    .thank-you-help a:hover { text-decoration: underline; }
+    .thank-you-footer {
+      padding: 24px 0;
+      color: var(--text-muted);
+      background: var(--bg-dark);
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .thank-you-section { padding: 112px 0 48px; }
+      .thank-you-actions .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="assets/images/site/needsolar-logo.png" alt="NEED SOLAR"></a>
+      <ul class="nav-links">
+        <li><a href="index.html">หน้าหลัก</a></li>
+        <li><a href="products.html">แบรนด์ต่างๆ</a></li>
+        <li><a href="calculator.html">คำนวณโซลาร์</a></li>
+        <li><a href="projects.html">ผลงาน</a></li>
+        <li><a href="about.html">เกี่ยวกับเรา</a></li>
+        <li><a href="contact.html">ติดต่อเรา</a></li>
+        <li><a href="contact.html" class="nav-cta">ขอใบเสนอราคา</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="เปิดเมนู"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <main class="thank-you-section">
+    <div class="container">
+      <div class="thank-you-card">
+        <div class="thank-you-icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="m10 20 7 7 13-14" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="thank-you-label">MESSAGE RECEIVED</p>
+        <h1 class="thank-you-title">ขอบคุณที่<span>ติดต่อเรา</span></h1>
+        <p class="thank-you-desc">เราได้รับข้อความของคุณเรียบร้อยแล้ว ทีม NEED SOLAR จะติดต่อกลับตามข้อมูลที่ให้ไว้</p>
+        <div class="thank-you-next">
+          <strong>ขั้นตอนต่อไป</strong>
+          ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมงในวันทำการ เพื่อพูดคุยรายละเอียดและให้คำปรึกษา
+        </div>
+        <div class="thank-you-actions">
+          <a href="index.html" class="btn btn-primary">กลับหน้าหลัก →</a>
+          <a href="projects.html" class="btn btn-ghost">ดูผลงานของเรา</a>
+        </div>
+        <p class="thank-you-help">ต้องการคุยทันที? โทร <a href="tel:0824984554">082-498-4554</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="thank-you-footer">
+    <div class="container">© NEED SOLAR · <a href="privacy-policy.html" style="color:inherit;">นโยบายความเป็นส่วนตัว</a></div>
+  </footer>
+  <script src="js/main.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+  <script defer src="js/cookie-consent.js"></script>
+</body>
+</html>

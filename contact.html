@@ -11,17 +11,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
   <link rel="stylesheet" href="css/cc-theme.css">
   <style>
-    .form-success {
+    .form-error {
       display: none;
-      background: rgba(78,197,193,.08);
-      border: 1px solid rgba(78,197,193,.3);
-      border-left: 3px solid var(--teal);
+      background: rgba(255,107,107,.08);
+      border: 1px solid rgba(255,107,107,.3);
+      border-left: 3px solid #ff6b6b;
       padding: 16px 20px;
       margin-top: 16px;
       font-size: 14px;
-      color: var(--teal);
+      color: #ff9b9b;
     }
-    .form-success.show { display: block; }
+    .form-error.show { display: block; }
 
     /* LINE CTA banner */
     .line-cta {
@@ -195,9 +195,7 @@
             </button>
           </div>
 
-          <div class="form-success" id="formSuccess">
-            ✓ ส่งข้อความสำเร็จ ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมงในวันทำการ
-          </div>
+          <div class="form-error" id="formError" role="alert" aria-live="assertive"></div>
         </form>
       </div>
 
@@ -379,7 +377,9 @@
     e.preventDefault();
     const form = e.target;
     const btn = form.querySelector('button[type="submit"]');
-    const successEl = document.getElementById('formSuccess');
+    const errorEl = document.getElementById('formError');
+
+    errorEl.classList.remove('show');
 
     btn.disabled = true;
     btn.textContent = 'กำลังส่ง...';
@@ -404,20 +404,16 @@
         body: JSON.stringify(data)
       });
       const json = await res.json();
-      if (json.success) {
-        successEl.textContent = '✓ ส่งข้อความสำเร็จ ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมงในวันทำการ';
-        successEl.style.color = '';
-        successEl.classList.add('show');
+      if (res.ok && json.success) {
         form.reset();
-        setTimeout(() => successEl.classList.remove('show'), 8000);
+        window.location.assign('thank-you.html');
+        return;
       } else {
         throw new Error(json.message);
       }
     } catch (err) {
-      successEl.textContent = '✗ เกิดข้อผิดพลาด กรุณาโทร 082-498-4554 หรือลองใหม่อีกครั้ง';
-      successEl.style.color = '#ff6b6b';
-      successEl.classList.add('show');
-      setTimeout(() => successEl.classList.remove('show'), 8000);
+      errorEl.textContent = 'ส่งข้อความไม่สำเร็จ กรุณาลองใหม่อีกครั้ง หรือโทร 082-498-4554';
+      errorEl.classList.add('show');
     } finally {
       btn.disabled = false;
       btn.textContent = 'ส่งข้อความ →';
